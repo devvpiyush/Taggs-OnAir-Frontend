@@ -1,0 +1,11 @@
+/* Tailwind CSS */
+@import "tailwindcss";
+
+/* Fonts */
+@import "@fontsource/damion";
+@import "@fontsource/poppins";
+
+:root {
+  --primary-border-color: #242424;
+  --primary-border-hover-color: #2a2a2a;
+}
