@@ -1,72 +1,74 @@
 // External Modules
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 // Local Modules
-import { normalizeUsername } from "@hook/auth.hooks.js";
-import { validateUsername } from "@/validators/auth.validator.js";
+import { fireApi } from "@util/api.util.js";
 import { USERNAME_ERRORS } from "@/constants/Errors.js";
-import { requestCanceler } from "@hook/auth.hooks.js";
-import { checkUsernameAvailability } from "@hook/auth.hooks.js";
+import { MidnightEdgeButton, ZebraStyleButton } from "./Buttons";
 
 // Assets
 import CheckIcon from "@icon/Check.svg";
 
 function Primary() {
   // Declarations
-  const { cancelRequest, createSignal } = requestCanceler();
-  const [USERNAME, SET_USERNAME] = useState("");
-  const [USERNAME_ERROR, SET_USERNAME_ERROR] = useState(null);
+  const navigate = useNavigate();
+
+  // Constants, States & References
+  const [USERNAME, UPDATE_USERNAME] = useState("");
   const [USERNAME_STATUS, SET_USERNAME_STATUS] = useState({
-    status: "IDLE", // IDLE | CHECKING | AVAILABLE | TAKEN | ERROR
     username: null,
+    status: null, // AVAILABLE | CHECKING | TAKEN
   });
+  const [USERNAME_ERROR, SET_USERNAME_ERROR] = useState("");
 
-  function handleOnChange(value) {
-    const normalized = normalizeUsername(value);
-    SET_USERNAME(normalized);
-
-    if (!normalized) {
-      SET_USERNAME_ERROR(null);
-      SET_USERNAME_STATUS({ status: "IDLE", username: null });
+  // Functions
+  function handleSubmit() {
+    if (!USERNAME) {
+      SET_USERNAME_ERROR(USERNAME_ERRORS["USERNAME_REQUIRED"]);
       return;
     }
 
-    const error = validateUsername(normalized);
-    SET_USERNAME_ERROR(error);
+    try {
+      const handle = async () => {
+        SET_USERNAME_STATUS({ username: USERNAME, status: "CHECKING" });
 
-    if (error) {
-      SET_USERNAME_STATUS({ status: "IDLE", username: null });
-      return;
-    }
+        const response = await fireApi("POST", "check/username", false, {
+          username: USERNAME,
+        });
 
-    SET_USERNAME_STATUS({
-      status: "CHECKING",
-      username: normalized,
-    });
+        console.log(response);
 
-    cancelRequest();
-
-    checkUsernameAvailability({
-      username: normalized,
-      signal: createSignal(),
-      onResult: (response) => {
-        if (response.isSuccess) {
-          SET_USERNAME_STATUS({
-            status: "AVAILABLE",
-            username: normalized,
-          });
-        } else {
-          SET_USERNAME_STATUS({
-            status: "TAKEN",
-            username: normalized,
-          });
+        if (
+          response?.isSuccess &&
+          response?.signal === "GREEN" &&
+          response?.code === "USERNAME_AVAILABLE" &&
+          response?.meta?.username === USERNAME
+        ) {
+          SET_USERNAME_STATUS({ username: USERNAME, status: "AVAILABLE" });
+          return;
         }
-      },
-    });
+
+        if (
+          !response?.isSuccess &&
+          response?.signal === "BLUE" &&
+          response?.meta?.value === USERNAME
+        ) {
+          SET_USERNAME_ERROR(USERNAME_ERRORS[response.code]);
+          return;
+        }
+
+        SET_USERNAME_ERROR(USERNAME_ERRORS[response.code]);
+      };
+
+      handle();
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
-    <>
+    <div className="flex flex-col items-center justify-between h-full">
       <div className="w-full flex flex-col gap-2">
         <span
           className="ml-4 font-medium text-white tracking-wide"
@@ -75,7 +77,7 @@ function Primary() {
           Choose a Username
         </span>
         <div
-          className={`px-4 flex flex-row items-center justify-between border ${USERNAME_STATUS.status === "AVAILABLE" && !USERNAME_ERROR && USERNAME.length > 0 ? "border-2 border-[#0A8754]" : "border-(--primary-border-color)"} rounded-full ${USERNAME_STATUS.status !== "AVAILABLE" ? "hover:border-(--primary-border-hover-color)" : ""}`}
+          className={`px-4 flex flex-row items-center justify-between ${USERNAME_STATUS?.status === "AVAILABLE" && !USERNAME_ERROR ? "border-2 border-[#0A8754]" : "border border-(--primary-border-color) hover:border-(--primary-border-hover-color)"} rounded-full`}
         >
           <input
             type="text"
@@ -85,32 +87,56 @@ function Primary() {
             autoCapitalize="false"
             spellCheck="false"
             required
+            pattern={/^[a-z0-9._]+$/}
+            onChange={(e) => {
+              UPDATE_USERNAME(e.target.value.toLowerCase());
+              SET_USERNAME_ERROR(null);
+            }}
+            onKeyDown={(e) => {
+              if (e.code === "Enter" || e.code === "ENTER") {
+                handleSubmit();
+              }
+            }}
             className={`w-full px-2 py-3 outline-none text-white font-semibold tracking-wide rounded-full`}
             placeholder="Username"
-            onChange={(e) => {
-              handleOnChange(e.target.value);
-            }}
           />
-          {USERNAME_STATUS.status === "AVAILABLE" &&
-            !USERNAME_ERROR &&
-            USERNAME.length > 0 && (
-              <img src={CheckIcon} alt="Check_Icon" width={20} height={20} />
-            )}
+          {USERNAME_STATUS?.status === "AVAILABLE" && !USERNAME_ERROR ? (
+            <img src={CheckIcon} alt="Check_Icon" width={20} height={20} />
+          ) : (
+            ""
+          )}
         </div>
         {USERNAME_ERROR && (
-          <p className="text-xs text-red-400 font-medium text-center">
-            {USERNAME_ERRORS[USERNAME_ERROR]}
+          <p
+            className="text-sm text-red-500 text-center"
+            style={{ fontFamily: "Poppins, sans-serif" }}
+          >
+            * {USERNAME_ERROR}
           </p>
         )}
         <p
-          className={`${!USERNAME_ERROR ? "mt-4" : "mt-2"} text-xs font-medium text-[#c0c0c0] text-center`}
+          className={`${USERNAME_ERROR ? "mt-2" : "mt-4"} text-xs font-medium text-[#c0c0c0] text-center`}
           style={{ fontFamily: "Inter, sans-serif" }}
         >
           Pick a unique username that represents you. Letters, numbers, periods
           and underscores are allowed. This username will be public.
         </p>
       </div>
-    </>
+      <div className="w-full flex flex-col gap-5">
+        <MidnightEdgeButton
+          text={
+            USERNAME_STATUS?.status === "AVAILABLE" && !USERNAME_ERROR
+              ? "Continue"
+              : "Check availability"
+          }
+          onClickFn={handleSubmit}
+        />
+        <ZebraStyleButton
+          text="Already have an account?"
+          onClickFn={() => navigate("/login")}
+        />
+      </div>
+    </div>
   );
 }
 

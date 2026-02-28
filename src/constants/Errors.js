@@ -6,4 +6,6 @@ export const USERNAME_ERRORS = {
   USERNAME_INVALID_DOT_POSITION: "Username cannot start or end with a period.",
   USERNAME_CONTAINS_CONSECUTIVE_DOTS:
     "Username cannot contain consecutive periods.",
+  USERNAME_AVAILABLE: "Username is available.",
+  USERNAME_UNAVAILABLE: "Username is already taken.",
 };

@@ -1,9 +1,9 @@
 // Local Modules
-import { callApi } from "@util/api.js";
+import { fireApi } from "@util/api.util.js";
 
 export async function checkHealth() {
   try {
-    return await callApi("GET", "i/health", false);
+    return await fireApi("GET", "i/health", false);
   } catch (error) {
     console.log("Health Check Error: ", error);
   }
