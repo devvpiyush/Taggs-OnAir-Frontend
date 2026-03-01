@@ -109,7 +109,7 @@ function Primary({ changeStage }) {
           </p>
         )}
         <p
-          className={`${USERNAME_ERROR ? "mt-2" : "mt-4"} text-xs font-medium text-[#c0c0c0] text-center`}
+          className={`${USERNAME_ERROR ? "mt-2" : "mt-4"} px-2 text-xs font-medium text-[#c0c0c0] text-center`}
           style={{ fontFamily: "Inter, sans-serif" }}
         >
           Pick a unique username that represents you. Letters, numbers, periods
