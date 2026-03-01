@@ -1,4 +1,7 @@
-function Opening({ progressLevel }) {
+// External Modules
+import { motion } from "framer-motion";
+
+export function ProgressNavy({ progressLevel }) {
   return (
     <div className="w-full h-screen flex flex-col items-center justify-center gap-8">
       <h1
@@ -17,4 +20,22 @@ function Opening({ progressLevel }) {
   );
 }
 
-export default Opening;
+export function CircularCoolBlue({ size = 14, color = "#0353a4" }) {
+  return (
+    <motion.div
+      style={{
+        width: size,
+        height: size,
+        borderRadius: "50%",
+        border: `${size / 6}px solid rgba(0,0,0,0.15)`,
+        borderTop: `${size / 6}px solid ${color}`,
+      }}
+      animate={{ rotate: 360 }}
+      transition={{
+        repeat: Infinity,
+        duration: 0.8,
+        ease: "linear",
+      }}
+    />
+  );
+}

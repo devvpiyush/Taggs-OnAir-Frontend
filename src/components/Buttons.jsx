@@ -1,4 +1,4 @@
-export function MidnightEdgeButton({ text, onClickFn }) {
+export function MidnightEdge({ text, onClickFn }) {
   return (
     <button
       type="submit"
@@ -11,7 +11,7 @@ export function MidnightEdgeButton({ text, onClickFn }) {
   );
 }
 
-export function ZebraStyleButton({ text, onClickFn }) {
+export function Zebra({ text, onClickFn }) {
   return (
     <button
       type="button"

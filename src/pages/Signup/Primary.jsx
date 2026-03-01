@@ -5,22 +5,23 @@ import { useNavigate } from "react-router-dom";
 // Local Modules
 import { fireApi } from "@util/api.util.js";
 import { USERNAME_ERRORS } from "@/constants/Errors.js";
-import { MidnightEdgeButton, ZebraStyleButton } from "./Buttons";
+import { MidnightEdge, Zebra } from "@component/Buttons";
+import { CircularCoolBlue } from "@component/Loaders";
 
 // Assets
 import CheckIcon from "@icon/Check.svg";
 
-function Primary() {
+function Primary({ changeStage }) {
   // Declarations
   const navigate = useNavigate();
 
   // Constants, States & References
   const [USERNAME, UPDATE_USERNAME] = useState("");
+  const [USERNAME_ERROR, SET_USERNAME_ERROR] = useState("");
   const [USERNAME_STATUS, SET_USERNAME_STATUS] = useState({
     username: null,
     status: null, // AVAILABLE | CHECKING | TAKEN
   });
-  const [USERNAME_ERROR, SET_USERNAME_ERROR] = useState("");
 
   // Functions
   function handleSubmit() {
@@ -32,12 +33,9 @@ function Primary() {
     try {
       const handle = async () => {
         SET_USERNAME_STATUS({ username: USERNAME, status: "CHECKING" });
-
         const response = await fireApi("POST", "check/username", false, {
           username: USERNAME,
         });
-
-        console.log(response);
 
         if (
           response?.isSuccess &&
@@ -46,19 +44,13 @@ function Primary() {
           response?.meta?.username === USERNAME
         ) {
           SET_USERNAME_STATUS({ username: USERNAME, status: "AVAILABLE" });
-          return;
-        }
-
-        if (
-          !response?.isSuccess &&
-          response?.signal === "BLUE" &&
-          response?.meta?.value === USERNAME
-        ) {
-          SET_USERNAME_ERROR(USERNAME_ERRORS[response.code]);
+          UPDATE_USERNAME(response?.meta?.username);
           return;
         }
 
         SET_USERNAME_ERROR(USERNAME_ERRORS[response.code]);
+        UPDATE_USERNAME(response?.meta?.username);
+        SET_USERNAME_STATUS({ username: USERNAME, status: null });
       };
 
       handle();
@@ -88,23 +80,25 @@ function Primary() {
             spellCheck="false"
             required
             pattern={/^[a-z0-9._]+$/}
+            placeholder="Username"
+            className={`w-full px-2 py-3 outline-none text-white font-semibold tracking-wide rounded-full`}
             onChange={(e) => {
-              UPDATE_USERNAME(e.target.value.toLowerCase());
               SET_USERNAME_ERROR(null);
+              SET_USERNAME_STATUS({ username: null, status: null });
+              UPDATE_USERNAME(e.target.value.toLowerCase());
             }}
             onKeyDown={(e) => {
               if (e.code === "Enter" || e.code === "ENTER") {
                 handleSubmit();
               }
             }}
-            className={`w-full px-2 py-3 outline-none text-white font-semibold tracking-wide rounded-full`}
-            placeholder="Username"
           />
           {USERNAME_STATUS?.status === "AVAILABLE" && !USERNAME_ERROR ? (
             <img src={CheckIcon} alt="Check_Icon" width={20} height={20} />
           ) : (
             ""
           )}
+          {USERNAME_STATUS?.status === "CHECKING" && <CircularCoolBlue />}
         </div>
         {USERNAME_ERROR && (
           <p
@@ -123,15 +117,22 @@ function Primary() {
         </p>
       </div>
       <div className="w-full flex flex-col gap-5">
-        <MidnightEdgeButton
+        <MidnightEdge
           text={
             USERNAME_STATUS?.status === "AVAILABLE" && !USERNAME_ERROR
               ? "Continue"
               : "Check availability"
           }
-          onClickFn={handleSubmit}
+          onClickFn={() => {
+            if (USERNAME_STATUS?.status === "AVAILABLE" && !USERNAME_ERROR) {
+              sessionStorage.setItem("username", USERNAME_STATUS?.username);
+              changeStage();
+            } else {
+              handleSubmit();
+            }
+          }}
         />
-        <ZebraStyleButton
+        <Zebra
           text="Already have an account?"
           onClickFn={() => navigate("/login")}
         />
