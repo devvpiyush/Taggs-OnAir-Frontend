@@ -80,7 +80,7 @@ function Secondary({ changeStage }) {
           </p>
         )}
         <p
-          className={`${EMAIL_ERROR ? "mt-2" : "mt-4"} text-xs font-medium text-[#c0c0c0] text-center`}
+          className={`${EMAIL_ERROR ? "mt-2" : "mt-4"} px-2 sm:px-0 text-xs font-medium text-[#c0c0c0] text-center`}
           style={{ fontFamily: "Inter, sans-serif" }}
         >
           We use your email only to keep your account secure and up to date. It
