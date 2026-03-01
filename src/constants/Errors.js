@@ -14,6 +14,6 @@ export const EMAIL_ERRORS = {
   EMAIL_REQUIRED: "Email is required.",
   EMAIL_INVALID_LENGTH: "Email is too short or too long.",
   EMAIL_INVALID_FORMAT: "Email format is invalid.",
-  EMAIL_UNSUPPORTED_PROVIDER: "Only Gmail, Hotmail & ICloud are supported.",
+  EMAIL_UNSUPPORTED_PROVIDER: "Only Gmail, Hotmail & iCloud are supported.",
   EMAIL_EXISTS: "Email is already in use.",
 };
