@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 export function ProgressNavy({ progress }) {
   return (
-    <div className="w-full h-screen flex flex-col items-center justify-center gap-8">
+    <div className="w-full h-[100svh] flex flex-col items-center justify-center gap-8">
       <h1
         className="text-white text-5xl font-semibold sm:font-medium tracking-wider"
         style={{ fontFamily: "Damion, sans-serif" }}
