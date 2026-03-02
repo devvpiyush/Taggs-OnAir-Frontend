@@ -90,7 +90,7 @@ function Secondary({ changeStage }) {
       </div>
       <div className="w-full flex flex-col gap-5">
         <MidnightEdge
-          text={EMAIL_STATUS?.status === "VERIFIED" ? "Continue" : "Verify"}
+          text={EMAIL_STATUS?.status === "VERIFIED" ? "Continue" : "Get OTP"}
           onClickFn={
             EMAIL_STATUS?.status === "VERIFIED" ? changeStage : handleSubmit
           }
