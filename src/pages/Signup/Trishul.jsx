@@ -94,6 +94,18 @@ function Trishul() {
       inputRefs.current[index - 1].focus();
     }
   }
+
+  async function resend() {
+    try {
+      const res = api("GET", "auth/resend");
+      if (res?.isSuccess && res?.code === "OTP_RESENT") {
+        return;
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   return (
     <div className="h-full flex flex-col self-start gap-4">
       <div className="flex gap-3 justify-center">
@@ -114,6 +126,13 @@ function Trishul() {
         ))}
       </div>
       <div className="w-full flex flex-col gap-2">
+        <a
+          className="text-center text-sm text-blue-400 font-medium cursor-pointer tracking-wide"
+          style={{ fontFamily: "Poppins, sans-serif" }}
+          onClick={resend}
+        >
+          Didn't recieved the OTP?
+        </a>
         {OTP_STATUS?.isVerifing && (
           <div className="w-full flex items-center justify-center">
             <CircularCoolBlue />
