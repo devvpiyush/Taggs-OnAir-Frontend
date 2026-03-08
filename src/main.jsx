@@ -1,10 +1,12 @@
 // External Modules
 import { StrictMode } from "react";
+import { Provider } from "react-redux";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 // Local Modules
 import App from "./App.jsx";
+import store from "@/store/index.js";
 import Minimal from "./layouts/Minimal.jsx";
 import Classic from "./layouts/Classic.jsx";
 
@@ -42,6 +44,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById("root")).render(
   // <StrictMode>
-  <RouterProvider router={router} />,
+  <Provider store={store}>
+    <RouterProvider router={router} />,
+  </Provider>,
   /* </StrictMode> */
 );

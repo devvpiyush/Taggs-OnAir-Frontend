@@ -1,43 +1,68 @@
 // External Modules
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 
 // Local Modules
-import { fireApi } from "@util/api.util.js";
-import { EMAIL_ERRORS } from "@/constants/Errors.js";
-import { MidnightEdge } from "@component/Buttons";
 import { CircularCoolBlue } from "@component/Loaders";
+import { onBoardActions } from "@/store/onBoard.js";
+import { EMAIL_ERRORS } from "@/constants/Errors.js";
+import api from "@util/api.util.js";
 
-function Secondary({ changeStage }) {
+function Secondary() {
+  // Declarations
+  const dispatch = useDispatch();
+
   // Constants, States & References
-  const [EMAIL, UPDATE_EMAIL] = useState("");
-  const [EMAIL_ERROR, SET_EMAIL_ERROR] = useState("");
+  const [EMAIL, SET_EMAIL] = useState("");
   const [EMAIL_STATUS, SET_EMAIL_STATUS] = useState({
-    username: null,
-    status: null, // CHECKING | OTP_SENT | VERIFIED
+    isSending: false,
+    isAvailable: false,
+    anyError: "",
+    email: "",
   });
 
-  // Functions
-  function handleSubmit() {
-    if (!EMAIL) {
-      SET_EMAIL_ERROR(EMAIL_ERRORS["EMAIL_REQUIRED"]);
-      return;
-    }
-
+  async function submitEmail() {
     try {
-      const handle = async () => {
-        SET_EMAIL_STATUS({ email: EMAIL, status: "CHECKING" });
-        const response = await fireApi("POST", "check/email", false, {
-          email: EMAIL,
-        });
+      SET_EMAIL_STATUS((prev) => ({
+        ...prev,
+        anyError: "",
+        isSending: true,
+      }));
 
-        SET_EMAIL_ERROR(EMAIL_ERRORS[response?.code]);
-        SET_EMAIL_STATUS({ email: EMAIL, status: null });
-        UPDATE_EMAIL(response?.meta?.email);
-      };
+      const res = await api("POST", "auth/temp/email", true, { email: EMAIL });
 
-      handle();
-    } catch (error) {
-      console.log(error);
+      const metaEmail = res?.meta?.email || EMAIL;
+
+      if (res?.isSuccess && res?.code === "OTP_SENT") {
+        SET_EMAIL(metaEmail);
+        SET_EMAIL_STATUS((prev) => ({
+          ...prev,
+          isAvailable: true,
+          email: metaEmail,
+        }));
+        dispatch(
+          onBoardActions.setUser({ email: metaEmail, emailOtpSent: true }),
+        );
+        return;
+      }
+
+      SET_EMAIL(metaEmail);
+      SET_EMAIL_STATUS((prev) => ({
+        ...prev,
+        isAvailable: false,
+        email: metaEmail,
+        anyError: EMAIL_ERRORS[res?.code] || "Something, went wrong!",
+      }));
+    } catch (err) {
+      SET_EMAIL_STATUS((prev) => ({
+        ...prev,
+        anyError: EMAIL_ERRORS[err?.code] || "Something, went wrong!",
+      }));
+      console.log(
+        `Error for Signup (Secondary): ${err?.message || "Something, went wrong!"}`,
+      );
+    } finally {
+      SET_EMAIL_STATUS((prev) => ({ ...prev, isSending: false }));
     }
   }
 
@@ -55,32 +80,30 @@ function Secondary({ changeStage }) {
         >
           <input
             type="email"
-            value={EMAIL}
+            placeholder="Email"
+            required
             minLength={5}
             maxLength={254}
             autoCapitalize="false"
             autoComplete="false"
-            required
-            placeholder="Email"
-            className={`w-full px-2 py-3 outline-none text-white font-semibold tracking-wide rounded-full`}
+            value={EMAIL}
             onChange={(e) => {
-              SET_EMAIL_ERROR(null);
-              SET_EMAIL_STATUS({ username: null, status: null });
-              UPDATE_EMAIL(e.target.value.toLowerCase());
+              SET_EMAIL(e.target.value);
             }}
+            className={`w-full px-2 py-3 outline-none text-white font-semibold tracking-wide rounded-full`}
           />
-          {EMAIL_STATUS?.status === "CHECKING" && <CircularCoolBlue />}
+          {EMAIL_STATUS?.isSending && <CircularCoolBlue />}
         </div>
-        {EMAIL_ERROR && (
+        {EMAIL_STATUS?.anyError !== "" && EMAIL_STATUS?.email === EMAIL ? (
           <p
             className="text-sm text-red-500 text-center"
             style={{ fontFamily: "Poppins, sans-serif" }}
           >
-            * {EMAIL_ERROR}
+            * {EMAIL_STATUS?.anyError}
           </p>
-        )}
+        ) : null}
         <p
-          className={`${EMAIL_ERROR ? "mt-2" : "mt-4"} px-2 sm:px-0 text-xs font-medium text-[#c0c0c0] text-center`}
+          className={`mt-2 px-2 sm:px-0 text-xs font-medium text-[#c0c0c0] text-center`}
           style={{ fontFamily: "Inter, sans-serif" }}
         >
           We use your email only to keep your account secure and up to date. It
@@ -89,12 +112,16 @@ function Secondary({ changeStage }) {
         </p>
       </div>
       <div className="w-full flex flex-col gap-5">
-        <MidnightEdge
-          text={EMAIL_STATUS?.status === "VERIFIED" ? "Continue" : "Get OTP"}
-          onClickFn={
-            EMAIL_STATUS?.status === "VERIFIED" ? changeStage : handleSubmit
-          }
-        />
+        <button
+          type="submit"
+          className="w-full py-3 bg-[#181818] border border-[#0353a4] text-white font-medium rounded-full cursor-pointer tracking-wider"
+          style={{ fontFamily: "Poppins, sans-serif" }}
+          onClick={() => {
+            submitEmail();
+          }}
+        >
+          Get OTP
+        </button>
       </div>
     </div>
   );

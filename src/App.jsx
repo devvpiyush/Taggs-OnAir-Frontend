@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 // Local Modules
 import { ProgressNavy } from "@component/Loaders";
 import { apiCache } from "@data/cache.js";
-import { checkHealth } from "@hook/APIs.js";
+import { useHealth } from "@hook/APIs.js";
 
 import "./App.css";
 
@@ -14,7 +14,7 @@ function App() {
   const [APP_LOAD_PROGRESS, UPDATE_APP_LOAD_PROGRESS] = useState(0);
 
   useEffect(() => {
-    checkHealth();
+    useHealth();
 
     if (!apiCache.health.loading) return;
     const interval = setInterval(() => {

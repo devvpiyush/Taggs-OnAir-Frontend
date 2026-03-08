@@ -1,11 +1,11 @@
 // Local Modules
-import { fireApi } from "@util/api.util.js";
+import api from "@util/api.util.js";
 import { apiCache } from "@data/cache.js";
 
-export async function checkHealth() {
+export async function useHealth() {
   try {
     apiCache.health.loading = true;
-    const res = await fireApi("GET", "i/health", false);
+    const res = await api("GET", "i/health", false);
     apiCache.health.data = res;
     apiCache.health.loading = false;
   } catch (error) {

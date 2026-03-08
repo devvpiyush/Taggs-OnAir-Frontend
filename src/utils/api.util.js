@@ -1,7 +1,7 @@
 // External Modules
 import axios from "axios";
 
-export async function fireApi(
+async function api(
   REQUEST_METHOD,
   END_POINT,
   WITH_CREDENTIALS = true,
@@ -23,9 +23,10 @@ export async function fireApi(
 
     // 🔴 Network / CORS / Timeout
     throw {
-      signal: "RED",
       code: "NETWORK_ERROR",
       message: "Unable to connect to server",
     };
   }
 }
+
+export default api;

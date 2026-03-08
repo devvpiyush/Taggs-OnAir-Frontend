@@ -1,63 +1,93 @@
 // External Modules
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 // Local Modules
-import { fireApi } from "@util/api.util.js";
-import { USERNAME_ERRORS } from "@/constants/Errors.js";
-import { MidnightEdge, Zebra } from "@component/Buttons";
+import api from "@util/api.util.js";
 import { CircularCoolBlue } from "@component/Loaders";
+import { onBoardActions } from "@/store/onBoard.js";
+import { USERNAME_ERRORS } from "@/constants/Errors.js";
 
 // Assets
 import CheckIcon from "@icon/Check.svg";
 
-function Primary({ changeStage }) {
+function Primary() {
   // Declarations
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const onBoardData = useSelector((store) => store.onBoard);
 
   // Constants, States & References
-  const [USERNAME, UPDATE_USERNAME] = useState("");
-  const [USERNAME_ERROR, SET_USERNAME_ERROR] = useState("");
+  const [USERNAME, SET_USERNAME] = useState("");
   const [USERNAME_STATUS, SET_USERNAME_STATUS] = useState({
-    username: null,
-    status: null, // AVAILABLE | CHECKING | TAKEN
+    isChecking: false,
+    isAvailable: false,
+    anyError: "",
+    username: "",
   });
 
-  // Functions
-  function handleSubmit() {
-    if (!USERNAME) {
-      SET_USERNAME_ERROR(USERNAME_ERRORS["USERNAME_REQUIRED"]);
-      return;
-    }
-
+  async function checkAvailability() {
     try {
-      const handle = async () => {
-        SET_USERNAME_STATUS({ username: USERNAME, status: "CHECKING" });
-        const response = await fireApi("POST", "check/username", false, {
-          username: USERNAME,
-        });
+      SET_USERNAME_STATUS((prev) => ({
+        ...prev,
+        anyError: "",
+        isChecking: true,
+      }));
 
-        if (
-          response?.isSuccess &&
-          response?.signal === "GREEN" &&
-          response?.code === "USERNAME_AVAILABLE" &&
-          response?.meta?.username === USERNAME
-        ) {
-          SET_USERNAME_STATUS({ username: USERNAME, status: "AVAILABLE" });
-          UPDATE_USERNAME(response?.meta?.username);
-          return;
-        }
+      const res = await api("POST", "check/username", true, {
+        username: USERNAME,
+      });
 
-        SET_USERNAME_ERROR(USERNAME_ERRORS[response.code]);
-        UPDATE_USERNAME(response?.meta?.username);
-        SET_USERNAME_STATUS({ username: USERNAME, status: null });
-      };
+      const metaUsername = res?.meta?.username || USERNAME;
 
-      handle();
-    } catch (error) {
-      console.log(error);
+      if (res?.isSuccess && res?.code === "USERNAME_AVAILABLE") {
+        SET_USERNAME(metaUsername);
+        SET_USERNAME_STATUS((prev) => ({
+          ...prev,
+          isAvailable: true,
+          username: metaUsername,
+        }));
+        return;
+      }
+
+      SET_USERNAME(metaUsername);
+      SET_USERNAME_STATUS((prev) => ({
+        ...prev,
+        isAvailable: false,
+        username: metaUsername,
+        anyError: USERNAME_ERRORS[res?.code] || "Something, went wrong!",
+      }));
+    } catch (err) {
+      console.log(`Error for Signup (Primary): ${err}`);
+      SET_USERNAME_STATUS((prev) => ({
+        ...prev,
+        anyError: err?.message || "Something, went wrong!",
+      }));
+    } finally {
+      SET_USERNAME_STATUS((prev) => ({ ...prev, isChecking: false }));
     }
   }
+
+  async function submitUsername() {
+    try {
+      const res = await api("POST", "auth/temp/create", true, {
+        username: USERNAME,
+      });
+      if (res?.isSuccess && res?.code === "TEMPORARY_USER_CREATED") {
+        dispatch(onBoardActions.setUser({ username: res?.meta?.username }));
+        return;
+      }
+    } catch (err) {
+      console.log(
+        `Error for Signup (Primary): ${err?.message || "Something, went wrong!"}`,
+      );
+    }
+  }
+
+  useEffect(() => {
+    if (onBoardData?.username !== "") {
+      SET_USERNAME(onBoardData.username);
+    }
+  }, [onBoardData?.username]);
 
   return (
     <div className="flex flex-col items-center justify-between h-full">
@@ -69,47 +99,49 @@ function Primary({ changeStage }) {
           Choose a Username
         </span>
         <div
-          className={`px-4 flex flex-row items-center justify-between ${USERNAME_STATUS?.status === "AVAILABLE" && !USERNAME_ERROR ? "border-2 border-[#0A8754]" : "border border-(--primary-border-color) hover:border-(--primary-border-hover-color)"} rounded-full`}
+          className={`px-4 flex flex-row items-center justify-between border-2 ${USERNAME_STATUS?.isAvailable && USERNAME_STATUS?.username === USERNAME ? "border-[#0A8754]" : "border-(--primary-border-color) hover:border-(--primary-border-hover-color)"} rounded-full`}
         >
           <input
             type="text"
-            value={USERNAME}
+            placeholder="Username"
+            required
             minLength={3}
             maxLength={21}
-            autoCapitalize="false"
+            autoCapitalize="none"
             spellCheck="false"
-            required
-            pattern={/^[a-z0-9._]+$/}
-            placeholder="Username"
-            className={`w-full px-2 py-3 outline-none text-white font-semibold tracking-wide rounded-full`}
-            onChange={(e) => {
-              SET_USERNAME_ERROR(null);
-              SET_USERNAME_STATUS({ username: null, status: null });
-              UPDATE_USERNAME(e.target.value.toLowerCase());
-            }}
+            value={USERNAME}
             onKeyDown={(e) => {
-              if (e.code === "Enter" || e.code === "ENTER") {
-                handleSubmit();
+              if (e.key === "Enter") {
+                checkAvailability();
               }
             }}
+            onChange={(e) => {
+              SET_USERNAME_STATUS((prev) => ({
+                ...prev,
+                isAvailable: false,
+                anyError: "",
+              }));
+              SET_USERNAME(e.target.value.toLowerCase());
+            }}
+            className={`w-full px-2 py-3 outline-none text-white font-semibold tracking-wide rounded-full`}
           />
-          {USERNAME_STATUS?.status === "AVAILABLE" && !USERNAME_ERROR ? (
+          {USERNAME_STATUS?.isChecking && <CircularCoolBlue />}
+          {USERNAME_STATUS?.isAvailable &&
+          USERNAME_STATUS?.username === USERNAME ? (
             <img src={CheckIcon} alt="Check_Icon" width={20} height={20} />
-          ) : (
-            ""
-          )}
-          {USERNAME_STATUS?.status === "CHECKING" && <CircularCoolBlue />}
+          ) : null}
         </div>
-        {USERNAME_ERROR && (
+        {USERNAME_STATUS?.anyError !== "" &&
+        USERNAME_STATUS?.username === USERNAME ? (
           <p
             className="text-sm text-red-500 text-center"
             style={{ fontFamily: "Poppins, sans-serif" }}
           >
-            * {USERNAME_ERROR}
+            * {USERNAME_STATUS?.anyError}
           </p>
-        )}
+        ) : null}
         <p
-          className={`${USERNAME_ERROR ? "mt-2" : "mt-4"} px-2 sm:px-0 text-xs font-medium text-[#c0c0c0] text-center`}
+          className={`mt-2 px-2 sm:px-0 text-xs font-medium text-[#c0c0c0] text-center`}
           style={{ fontFamily: "Inter, sans-serif" }}
         >
           Pick a unique username that represents you. Letters, numbers, periods
@@ -117,25 +149,27 @@ function Primary({ changeStage }) {
         </p>
       </div>
       <div className="w-full flex flex-col gap-5">
-        <MidnightEdge
-          text={
-            USERNAME_STATUS?.status === "AVAILABLE" && !USERNAME_ERROR
-              ? "Continue"
-              : "Check availability"
-          }
-          onClickFn={() => {
-            if (USERNAME_STATUS?.status === "AVAILABLE" && !USERNAME_ERROR) {
-              sessionStorage.setItem("username", USERNAME_STATUS?.username);
-              changeStage();
+        <button
+          type="submit"
+          className="w-full py-3 bg-[#181818] border border-[#0353a4] text-white font-medium rounded-full cursor-pointer tracking-wider"
+          style={{ fontFamily: "Poppins, sans-serif" }}
+          onClick={() => {
+            if (!USERNAME_STATUS?.isAvailable) {
+              checkAvailability();
             } else {
-              handleSubmit();
+              submitUsername();
             }
           }}
-        />
-        <Zebra
-          text="Already have an account?"
-          onClickFn={() => navigate("/login")}
-        />
+        >
+          {!USERNAME_STATUS?.isAvailable ? "Check Availability" : "Continue"}
+        </button>
+        <button
+          type="button"
+          className="w-full py-3 bg-[#181818] border border-(--primary-border-color) text-white font-medium rounded-full cursor-pointer tracking-wide"
+          style={{ fontFamily: "Poppins, sans-serif" }}
+        >
+          Already have an account?
+        </button>
       </div>
     </div>
   );
