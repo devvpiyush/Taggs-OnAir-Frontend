@@ -1,0 +1,17 @@
+.AuthInput {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  color: white;
+  border: 2px solid var(--primary-border-color);
+  border-radius: 30px;
+  outline: none;
+  letter-spacing: 1px;
+}
+
+.AuthInput:hover {
+  border: 2px solid var(--primary-border-hover-color);
+}
+
+.AuthInput::placeholder {
+  font-family: Inder, sans-serif;
+}

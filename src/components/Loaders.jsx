@@ -1,9 +1,9 @@
 // External Modules
 import { motion } from "framer-motion";
 
-export function ProgressNavy({ progress }) {
+export function AppProgress({ progress }) {
   return (
-    <div className="w-full h-[100svh] flex flex-col items-center justify-center gap-8">
+    <div className="w-full h-dvh flex flex-col items-center justify-center gap-8">
       <h1
         className="text-white text-5xl font-semibold sm:font-medium tracking-wider"
         style={{ fontFamily: "Damion, sans-serif" }}
@@ -16,6 +16,19 @@ export function ProgressNavy({ progress }) {
           style={{ width: `${progress}%` }}
         ></div>
       </div>
+    </div>
+  );
+}
+
+export function AppStatic() {
+  return (
+    <div className="w-full h-dvh flex items-center justify-center">
+      <h1
+        className="text-white text-5xl font-semibold sm:font-medium tracking-wider"
+        style={{ fontFamily: "Damion, sans-serif" }}
+      >
+        Taggs
+      </h1>
     </div>
   );
 }

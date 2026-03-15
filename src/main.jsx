@@ -1,21 +1,21 @@
 // External Modules
 import { StrictMode } from "react";
-import { Provider } from "react-redux";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Provider } from "react-redux";
 
 // Local Modules
 import App from "./App.jsx";
-import store from "@/store/index.js";
 import Minimal from "./layouts/Minimal.jsx";
 import Classic from "./layouts/Classic.jsx";
+import store from "@/store/index.js";
 
 import "./index.css";
 
 // Pages
 import Home from "@page/Home/Home.jsx";
 import Search from "@page/Search/Search.jsx";
-import Signup from "@page/Signup/Signup.jsx";
+import Login from "@page/Login/Login.jsx";
 
 const router = createBrowserRouter([
   {
@@ -23,7 +23,12 @@ const router = createBrowserRouter([
     children: [
       {
         element: <Minimal />,
-        children: [{ path: "/signup", element: <Signup /> }],
+        children: [
+          {
+            path: "/login",
+            element: <Login />,
+          },
+        ],
       },
       {
         element: <Classic />,
@@ -43,9 +48,9 @@ const router = createBrowserRouter([
 ]);
 
 createRoot(document.getElementById("root")).render(
-  // <StrictMode>
-  <Provider store={store}>
-    <RouterProvider router={router} />,
-  </Provider>,
-  /* </StrictMode> */
+  <StrictMode>
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
+  </StrictMode>,
 );

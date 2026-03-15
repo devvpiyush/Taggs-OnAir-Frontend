@@ -2,11 +2,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 
 // Local Modules
-import onBoard from "./onBoard.js";
+import { UserSlice } from "./user.slice";
 
 const store = configureStore({
   reducer: {
-    onBoard: onBoard,
+    User: UserSlice,
   },
 });
 
