@@ -4,11 +4,15 @@ import { createSlice } from "@reduxjs/toolkit";
 export const UserSlice = createSlice({
   name: "User",
   initialState: {
-    _id: null,
+    name: "",
+    profilePictureUrl: "",
+    isVerified: null,
   },
   reducers: {
     SET_USER: (state, { payload }) => {
-      state._id = payload._id;
+      state.name = payload.name;
+      state.profilePictureUrl = payload.profilePictureUrl;
+      state.isVerified = payload.isVerified;
     },
   },
 }).reducer;
