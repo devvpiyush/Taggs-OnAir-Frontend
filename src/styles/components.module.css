@@ -1,9 +1,12 @@
+/* Authentication */
 .AuthInput {
   width: 100%;
   padding: 1rem 1.5rem;
   color: white;
   border: 2px solid var(--primary-border-color);
   border-radius: 30px;
+  transition: all ease-in-out 300ms;
+  font-family: Inder, sans-serif;
   outline: none;
   letter-spacing: 1px;
 }
@@ -14,4 +17,13 @@
 
 .AuthInput::placeholder {
   font-family: Inder, sans-serif;
+}
+
+.AuthInputWithIcon {
+  width: 100%;
+  padding: 1rem 0;
+  color: white;
+  outline: none;
+  font-family: Inder, sans-serif;
+  letter-spacing: 1px;
 }

@@ -39,7 +39,6 @@ function App() {
       {apiCache.checkHealth.loading && (
         <AppProgress progress={APP_LOAD_PROGRESS} />
       )}
-      {apiCache.authGetMe.loading && <AppStatic />}
       <Outlet />
     </>
   );

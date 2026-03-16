@@ -9,8 +9,19 @@ export async function useHealth() {
     apiCache.checkHealth.data = res;
   } catch (err) {
     apiCache.checkHealth.error = err;
-    console.log(err);
   } finally {
     apiCache.checkHealth.loading = false;
+  }
+}
+
+export async function useLogin(emailOrUsername, password) {
+  try {
+    const res = await api("POST", "auth/login", true, {
+      identifier: emailOrUsername,
+      password,
+    });
+    console.log(res);
+  } catch (err) {
+    console.log(err);
   }
 }
