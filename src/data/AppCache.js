@@ -4,4 +4,9 @@ export const apiCache = {
     loading: false,
     error: null,
   },
+  authGetMe: {
+    data: null,
+    loading: false,
+    error: null,
+  }
 };

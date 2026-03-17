@@ -1,9 +1,9 @@
 // Local Modules
-import UserActions from "@/store/user.slice.js";
 import api from "@util/api.util.js";
 import { apiCache } from "@data/AppCache.js";
+import { createLocalUser } from "@util/user.util";
 
-export async function useHealth() {
+export async function checkHealth() {
   try {
     apiCache.checkHealth.loading = true;
     const res = await api("GET", "i/health", false);
@@ -15,15 +15,14 @@ export async function useHealth() {
   }
 }
 
-export async function useLogin(emailOrUsername, password) {
+export async function useLogin(dispatch, emailOrUsername, password) {
   try {
     const res = await api("POST", "auth/login", true, {
       emailOrUsername,
       password,
     });
-
-    if (res?.isSuccess) {
-      UserActions.SET_USER(res);
+    if (res?.isSuccess && res?.data) {
+      createLocalUser(dispatch, res?.data);
     }
   } catch (err) {
     console.log(err);

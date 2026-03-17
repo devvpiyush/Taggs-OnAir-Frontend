@@ -1,14 +1,15 @@
 // External Modules
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 // Assets
-import ProfilePicture from "/Avatar.png";
 import HomeIcon from "@icon/Home.svg";
 import ExploreIcon from "@icon/Explore.svg";
 import SearchIcon from "@icon/Search.svg";
 import ChatsIcon from "@icon/Chats.svg";
 
 function Navigator() {
+  const User = useSelector((store) => store.User)
   return (
     <div className="fixed bottom-0 z-10 w-full px-6 py-4 flex flex-row items-center justify-between border border-t-(--primary-border-color)">
       <Link to="/">
@@ -44,11 +45,9 @@ function Navigator() {
         className="cursor-pointer"
       />
       <img
-        src={ProfilePicture}
+        src={User.profilePictureUrl || "https://res.cloudinary.com/dtgta9nbo/image/upload/f_auto,q_auto/v1773724571/f9b2236d-f8cd-46d6-a48d-c978d1ddf0dc.png"}
         alt="User_Profile_Picture"
-        width={30}
-        height={30}
-        className="cursor-pointer"
+        className="min-w-8 max-w-8 min-h-8 max-h-8 object-cover rounded-full cursor-pointer"
       />
     </div>
   );
