@@ -1,9 +1,9 @@
 // External Modules
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 // Local Modules
-import { useLogin } from "@hook/APIs";
+import { useLogin } from "@hook/Auth";
 import {
   Taggs,
   AuthInput,
@@ -21,9 +21,10 @@ function Login() {
   const navigate = useNavigate();
 
   // Constants, States & References
-  const [USERNAME_EMAIL, SET_USERNAME_EMAIL] = useState("");
+  const [USERNAME, SET_USERNAME] = useState("");
   const [PASSWORD, SET_PASSWORD] = useState("");
   const [PASSWORD_VISIBILITY, SET_PASSWORD_VISIBILITY] = useState("hidden");
+  const { mutate, isPending: LoginPending } = useLogin();
 
   return (
     <div className="w-full min-h-dvh flex flex-row">
@@ -32,11 +33,11 @@ function Login() {
         <Taggs />
         <div className="w-full flex flex-col gap-6 px-6">
           <AuthInput
-            placeholder="Username or Email"
-            value={USERNAME_EMAIL}
+            placeholder="Username"
+            value={USERNAME}
             minLength={3}
-            maxLength={254}
-            onChange={(e) => SET_USERNAME_EMAIL(e.target.value)}
+            maxLength={21}
+            onChange={(e) => SET_USERNAME(e.target.value)}
           />
           <AuthInputWithIcon
             type={PASSWORD_VISIBILITY === "hidden" ? "password" : "text"}
@@ -55,10 +56,12 @@ function Login() {
           />
           <AuthPrimaryButton
             type="button"
-            text="Log in"
-            isDisabled={USERNAME_EMAIL === "" || PASSWORD === "" ? true : false}
+            text={LoginPending ? "Logging in" : "Log in"}
+            isDisabled={
+              USERNAME === "" || PASSWORD === "" || LoginPending ? true : false
+            }
             onClick={() => {
-              useLogin(USERNAME_EMAIL, PASSWORD);
+              mutate({ username: USERNAME, password: PASSWORD });
             }}
           />
           <Link

@@ -1,29 +1,35 @@
 // External Modules
-import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+
+// Local Modules
+import { useMe } from "@hook/Auth";
 
 // Assets
 import SendIcon from "@icon/Send.svg";
 
 function Create() {
-  // Declarations
-  const User = useSelector((store) => store.User)
+  // Constants
+  const { data } = useMe();
   return (
     <div className="w-full p-4">
       <div className="p-4 border-2 border-[#1E1E1E] rounded-3xl transition-color ease-in-out duration-300 hover:border-(--primary-border-hover-color)">
         <div className="flex flex-row items-start justify-between gap-4">
           <img
-            src={User.profilePictureUrl || "https://res.cloudinary.com/dtgta9nbo/image/upload/f_auto,q_auto/v1773724571/f9b2236d-f8cd-46d6-a48d-c978d1ddf0dc.png"}
+            src={
+              data?.profilePictureUrl ||
+              "https://res.cloudinary.com/dtgta9nbo/image/upload/f_auto,q_auto/v1773724571/f9b2236d-f8cd-46d6-a48d-c978d1ddf0dc.png"
+            }
             alt="User_Profile_Picture"
-                className="min-w-12 max-w-12 min-h-12 max-h-12 rounded-full object-cover object-center shadow-sm cursor-pointer"
+            className="min-w-12 max-w-12 min-h-12 max-h-12 rounded-full object-cover object-center shadow-sm cursor-pointer"
           />
           <div className="w-full flex flex-col items-start justify-center">
-            <a
-              href=""
+            <Link
+              to={`/${data?.username}`}
               className="font-semibold text-white tracking-wide"
               style={{ fontFamily: "Poppins, sans-serif" }}
             >
-              {User.name}
-            </a>
+              {data?.name}
+            </Link>
             <textarea
               required
               name="content"

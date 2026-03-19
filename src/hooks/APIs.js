@@ -1,30 +1,26 @@
+// External Modules
+import { useQuery } from "@tanstack/react-query";
+
 // Local Modules
 import api from "@util/api.util.js";
-import { apiCache } from "@data/AppCache.js";
-import { createLocalUser } from "@util/user.util";
 
-export async function checkHealth() {
-  try {
-    apiCache.checkHealth.loading = true;
-    const res = await api("GET", "i/health", false);
-    apiCache.checkHealth.data = res;
-  } catch (err) {
-    apiCache.checkHealth.error = err;
-  } finally {
-    apiCache.checkHealth.loading = false;
-  }
-}
-
-export async function useLogin(dispatch, emailOrUsername, password) {
-  try {
-    const res = await api("POST", "auth/login", true, {
-      emailOrUsername,
-      password,
-    });
-    if (res?.isSuccess && res?.data) {
-      createLocalUser(dispatch, res?.data);
+export function useHealth() {
+  const fetch = async () => {
+    try {
+      const res = await api("GET", "i/health", false);
+      return res;
+    } catch (err) {
+      throw err;
     }
-  } catch (err) {
-    console.log(err);
-  }
+  };
+
+  return useQuery({
+    queryKey: ["health"],
+    queryFn: fetch,
+    staleTime: 0,
+    cacheTime: 0,
+    retry: true,
+    retryDelay: 2000, // Every 2 Seconds.
+    refetchOnWindowFocus: false,
+  });
 }
