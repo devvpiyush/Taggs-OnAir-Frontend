@@ -47,14 +47,16 @@ function Navigator() {
         height={30}
         className="cursor-pointer"
       />
-      <img
-        src={
-          data?.profilePictureUrl ||
-          "https://res.cloudinary.com/dtgta9nbo/image/upload/f_auto,q_auto/v1773724571/f9b2236d-f8cd-46d6-a48d-c978d1ddf0dc.png"
-        }
-        alt="User_Profile_Picture"
-        className="min-w-8 max-w-8 min-h-8 max-h-8 object-cover rounded-full cursor-pointer"
-      />
+      <Link to={`/${data?.username}`}>
+        <img
+          src={
+            data?.profilePictureUrl ||
+            "https://res.cloudinary.com/dtgta9nbo/image/upload/f_auto,q_auto/v1773724571/f9b2236d-f8cd-46d6-a48d-c978d1ddf0dc.png"
+          }
+          alt="User_Profile_Picture"
+          className="min-w-8 max-w-8 min-h-8 max-h-8 object-cover rounded-full cursor-pointer"
+        />
+      </Link>
     </div>
   );
 }
