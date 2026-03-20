@@ -1,11 +1,14 @@
 // External Modules
-import { Outlet } from "react-router-dom";
+import { Outlet, useOutletContext } from "react-router-dom";
 
 // Local Modules
 import Navbar from "@component/Navbar";
 import Navigator from "@component/Navigator";
 
 function Classic({ excluded = "None" }) {
+  // Constants
+  const context = useOutletContext();
+
   return (
     <>
       {excluded !== "Header" && (
@@ -14,7 +17,7 @@ function Classic({ excluded = "None" }) {
         </header>
       )}
       <main>
-        <Outlet />
+        <Outlet context={context} />
         <Navigator />
       </main>
     </>

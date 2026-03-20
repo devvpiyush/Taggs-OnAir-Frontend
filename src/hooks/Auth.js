@@ -34,7 +34,7 @@ export function useMe() {
   const fetch = async () => {
     try {
       const res = await api("GET", "auth/me");
-      return res?.data;
+      return res?.data || null;
     } catch (err) {
       throw err;
     }
@@ -46,5 +46,6 @@ export function useMe() {
     staleTime: 1000 * 60 * 5, // Fetch again after 5 Minutes.
     retry: false, // Restrict from retrying if Unauthorized
     refetchOnWindowFocus: false,
+    refetchOnMount: false,
   });
 }

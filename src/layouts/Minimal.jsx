@@ -1,10 +1,13 @@
 // External Modules
-import { Outlet } from "react-router-dom";
+import { Outlet, useOutletContext } from "react-router-dom";
 
 function Minimal() {
+  // Constants
+  const context = useOutletContext();
+
   return (
     <main>
-      <Outlet />
+      <Outlet context={context} />
     </main>
   );
 }

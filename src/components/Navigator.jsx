@@ -1,8 +1,5 @@
 // External Modules
-import { Link } from "react-router-dom";
-
-// Local Modules
-import { useMe } from "../hooks/Auth";
+import { Link, useOutletContext } from "react-router-dom";
 
 // Assets
 import HomeIcon from "@icon/Home.svg";
@@ -12,7 +9,7 @@ import ChatsIcon from "@icon/Chats.svg";
 
 function Navigator() {
   // Constants
-  const { data } = useMe();
+  const { User } = useOutletContext();
   return (
     <div className="fixed bottom-0 z-10 w-full px-6 py-4 flex flex-row items-center justify-between border border-t-(--primary-border-color)">
       <Link to="/">
@@ -47,10 +44,10 @@ function Navigator() {
         height={30}
         className="cursor-pointer"
       />
-      <Link to={`/${data?.username}`}>
+      <Link to={`/${User?.username}`}>
         <img
           src={
-            data?.profilePictureUrl ||
+            User?.profilePictureUrl ||
             "https://res.cloudinary.com/dtgta9nbo/image/upload/f_auto,q_auto/v1773724571/f9b2236d-f8cd-46d6-a48d-c978d1ddf0dc.png"
           }
           alt="User_Profile_Picture"

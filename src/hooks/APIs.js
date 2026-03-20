@@ -6,12 +6,18 @@ import api from "@util/api.util.js";
 
 export function useHealth() {
   const fetch = async () => {
-    try {
-      const res = await api("GET", "i/health", false);
-      return res;
-    } catch (err) {
-      throw err;
+    if (!sessionStorage.getItem("loaded")) {
+      try {
+        const res = await api("GET", "i/health", false);
+        return res;
+      } catch (err) {
+        throw err;
+      } finally {
+        sessionStorage.setItem("loaded", true);
+      }
     }
+
+    return "OK";
   };
 
   return useQuery({

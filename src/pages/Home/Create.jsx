@@ -1,8 +1,5 @@
 // External Modules
-import { Link } from "react-router-dom";
-
-// Local Modules
-import { useMe } from "@hook/Auth";
+import { Link, useOutletContext } from "react-router-dom";
 
 // Assets
 import SendIcon from "@icon/Send.svg";
@@ -10,14 +7,14 @@ import ImageIcon from "@icon/Image.svg";
 
 function Create() {
   // Constants
-  const { data } = useMe();
+  const { User } = useOutletContext();
   return (
     <div className="w-full p-4">
       <div className="p-4 border-2 border-[#1E1E1E] rounded-3xl transition-color ease-in-out duration-300 hover:border-(--primary-border-hover-color)">
         <div className="flex flex-row items-start justify-between gap-4">
           <img
             src={
-              data?.profilePictureUrl ||
+              User?.profilePictureUrl ||
               "https://res.cloudinary.com/dtgta9nbo/image/upload/f_auto,q_auto/v1773724571/f9b2236d-f8cd-46d6-a48d-c978d1ddf0dc.png"
             }
             alt="User_Profile_Picture"
@@ -25,11 +22,11 @@ function Create() {
           />
           <div className="w-full flex flex-col items-start justify-center">
             <Link
-              to={`/${data?.username}`}
+              to={`/${User?.username}`}
               className="font-semibold text-white tracking-wide"
               style={{ fontFamily: "Poppins, sans-serif" }}
             >
-              {data?.name}
+              {User?.name}
             </Link>
             <textarea
               required

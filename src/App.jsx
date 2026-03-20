@@ -1,43 +1,44 @@
 // External Modules
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 // Local Modules
 import { useMe } from "@hook/Auth";
 import { useHealth } from "@hook/APIs";
 import { AppProgress, AppStatic } from "@component/Loaders";
+import { AccessWraper } from "@/context/Accessors";
 
 import "./App.css";
 
 function App() {
   // Declarations
-  const navigate = useNavigate();
-  const Health = useHealth();
+  const health = useHealth();
   const User = useMe();
 
-  // Constants, States & References
-  const [APP_LOAD_PROGRESS, UPDATE_APP_LOAD_PROGRESS] = useState(0);
+  const [minLoadComplete, setMinLoadComplete] = useState(false);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      UPDATE_APP_LOAD_PROGRESS((p) => {
-        if (p >= 100) {
-          clearInterval(interval);
-          return 100;
-        }
-        return p + 100 / 45;
-      });
-    }, 1000);
-
-    return () => clearInterval(interval);
+    const timer = setTimeout(() => {
+      setMinLoadComplete(true);
+    }, 1500);
+    return () => clearTimeout(timer);
   }, []);
 
-  if (Health.isLoading || Health.isFetching)
-    return <AppProgress progress={APP_LOAD_PROGRESS} />;
+  const isAppLoading =
+    User?.isLoading ||
+    health.isLoading ||
+    health.isFetching ||
+    !minLoadComplete;
 
-  if (User.isLoading) return <AppStatic />;
+  if (isAppLoading) return <AppStatic />;
 
-  return <Outlet />;
+  if (health.isLoading || health.isFetching) return <AppProgress />;
+
+  return (
+    <AccessWraper User={User?.data}>
+      <Outlet context={{ User: User?.data }} />
+    </AccessWraper>
+  );
 }
 
 export default App;
