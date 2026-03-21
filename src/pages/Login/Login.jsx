@@ -1,5 +1,5 @@
 // External Modules
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 // Local Modules
@@ -13,6 +13,7 @@ import {
 } from "@component/Components";
 
 // Assets
+import Warning from "@icon/Warning.svg";
 import Show from "@icon/Show.svg";
 import Hide from "@icon/Hide.svg";
 
@@ -24,8 +25,7 @@ function Login() {
   const [USERNAME, SET_USERNAME] = useState("");
   const [PASSWORD, SET_PASSWORD] = useState("");
   const [PASSWORD_VISIBILITY, SET_PASSWORD_VISIBILITY] = useState("hidden");
-  const { mutate, isPending: LoginPending } = useLogin();
-
+  const { mutate, isPending: LoginPending, isError, error } = useLogin();
   return (
     <div className="w-full min-h-dvh flex flex-row">
       <div className="w-full md:min-w-[55%] md:max-w-[55%] lg:min-w-[65%] lg:max-w-[65%] h-dvh hidden md:block"></div>
@@ -54,6 +54,18 @@ function Login() {
               );
             }}
           />
+          {isError && (
+            <div className="w-full flex flex-row items-start justify-center gap-2">
+              <img src={Warning} alt="Warning_Icon" width={21} height={21} />
+              <p
+                className="text-sm text-red-600 text-center font-medium"
+                style={{ fontFamily: "Poppins, sans-serif" }}
+              >
+                {error?.message} {/* Temporary */}
+              </p>
+            </div>
+          )}
+
           <AuthPrimaryButton
             type="button"
             text={LoginPending ? "Logging in" : "Log in"}

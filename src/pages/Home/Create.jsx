@@ -32,19 +32,19 @@ function Create() {
               required
               name="content"
               aria-expanded="false"
-              placeholder="What's Happening?"
+              placeholder="What's in your mind?"
               className="w-full min-h-25 sm:min-h-20 max-h-25 sm:max-h-20 text-[#c0c0c0] font-light outline-0 tracking-wider resize-none"
               style={{ fontFamily: "Poppins, sans-serif" }}
             ></textarea>
             <div className="w-full flex flex-row items-center justify-between">
               <div className="w-full flex flex-row items-center gap-6 sm:gap-12">
-                <img
-                  src={ImageIcon}
-                  alt="Image_Upload_Icon"
-                  className="cursor-pointer"
-                  width={20}
-                  height={20}
-                />
+                {/* <img */}
+                {/* src={ImageIcon} */}
+                {/* alt="Image_Upload_Icon"
+                className="cursor-pointer"
+                width={20}
+                height={20}
+                /> */}
               </div>
               <button
                 type="submit"

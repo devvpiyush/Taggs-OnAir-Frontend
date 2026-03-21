@@ -18,7 +18,7 @@ async function api(
     return call.data;
   } catch (error) {
     if (error.response?.data) {
-      return error.response.data;
+      throw error.response.data;
     }
 
     // 🔴 Network / CORS / Timeout
