@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 // Local Modules
 import { useMe } from "@hook/Auth";
-import { AppStatic } from "@component/Loaders";
+import { AppStatic, AppProgress } from "@component/Loaders";
 import { AccessWraper } from "@/context/Accessors";
 
 import "./App.css";
@@ -21,6 +21,8 @@ function App() {
     }, 1500);
     return () => clearTimeout(timer);
   }, []);
+
+  if (User?.isLoading) return <AppProgress />
 
   if (!minLoadComplete) return <AppStatic />;
 
