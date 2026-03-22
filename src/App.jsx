@@ -22,9 +22,7 @@ function App() {
     return () => clearTimeout(timer);
   }, []);
 
-  const isAppLoading = User?.isLoading || !minLoadComplete;
-
-  if (isAppLoading) return <AppStatic />;
+  if (!minLoadComplete) return <AppStatic />;
 
   return (
     <AccessWraper User={User?.data}>
