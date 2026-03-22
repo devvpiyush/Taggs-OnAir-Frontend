@@ -84,7 +84,7 @@ function Create() {
               required
               value={CAPTION}
               aria-expanded="false"
-              placeholder="What's in your mind?"
+              placeholder="What's on your mind?"
               className="w-full min-h-25 sm:min-h-20 max-h-25 sm:max-h-20 text-[#c0c0c0] font-light outline-0 tracking-wider resize-none"
               style={{ fontFamily: "Poppins, sans-serif" }}
               onChange={(e) => {
