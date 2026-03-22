@@ -1,5 +1,6 @@
 // External Modules
 import { Link, useOutletContext } from "react-router-dom";
+import Skeleton from "@mui/material/Skeleton";
 
 // Assets
 import HomeIcon from "@icon/Home.svg";
@@ -9,7 +10,7 @@ import ChatsIcon from "@icon/Chats.svg";
 
 function Navigator() {
   // Constants
-  const { User } = useOutletContext();
+  const { me } = useOutletContext();
   return (
     <div className="fixed bottom-0 z-10 w-full px-6 py-4 flex flex-row items-center justify-between border border-t-(--primary-border-color)">
       <Link to="/">
@@ -44,16 +45,29 @@ function Navigator() {
         height={30}
         className="cursor-pointer"
       />
-      <Link to={`/${User?.username}`}>
-        <img
-          src={
-            User?.profilePictureUrl ||
-            "https://res.cloudinary.com/dtgta9nbo/image/upload/f_auto,q_auto/v1773724571/f9b2236d-f8cd-46d6-a48d-c978d1ddf0dc.png"
-          }
-          alt="User_Profile_Picture"
-          className="min-w-8 max-w-8 min-h-8 max-h-8 object-cover rounded-full cursor-pointer"
+      {me?.isLoading ? (
+        <Skeleton
+          variant="circular"
+          width={32}
+          height={32}
+          sx={{
+            bgcolor: "#1a1a1a",
+            "::after": {
+              background:
+                "linear-gradient(90deg, transparent, #2a2a2a, transparent)",
+            },
+          }}
+          animation="wave"
         />
-      </Link>
+      ) : (
+        <Link to={`/${me?.data?.username}`}>
+          <img
+            src={me?.data?.profilePictureUrl}
+            alt="User_Profile_Picture"
+            className="min-w-8 max-w-8 min-h-8 max-h-8 rounded-full object-cover object-center shadow-sm cursor-pointer"
+          />
+        </Link>
+      )}
     </div>
   );
 }
