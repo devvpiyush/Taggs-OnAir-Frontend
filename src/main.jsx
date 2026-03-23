@@ -49,9 +49,7 @@ const router = createBrowserRouter([
 const queryClient = new QuerClient()
 
 createRoot(document.getElementById("root")).render(
-  {/* <StrictMode> */}
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
     </QueryClientProvider>
-  {/* </StrictMode>, */}
 );
