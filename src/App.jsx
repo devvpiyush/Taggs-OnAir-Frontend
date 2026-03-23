@@ -45,7 +45,7 @@ function App() {
   if (!minLoadComplete) return <AppStatic />;
 
   return (
-    <AccessWraper User={User?.data}>
+    <AccessWraper User={User}>
       <Outlet context={{ me: User }} />
     </AccessWraper>
   );
