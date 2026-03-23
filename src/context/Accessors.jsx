@@ -8,11 +8,11 @@ export const AccessWraper = ({ children, User }) => {
   // Constants
   const location = useLocation();
 
-  if (PROTECTED_ROUTES.includes(location.pathname) && !User) {
+  if (PROTECTED_ROUTES.includes(location.pathname) && !User?.data && !User?.isLoading) {
     return <Navigate to="/login" replace />;
   }
 
-  if (USER_PROTECTED_ROUTES.includes(location.pathname) && User) {
+  if (USER_PROTECTED_ROUTES.includes(location.pathname) && User?.data && !User?.isLoading) {
     return <Navigate to="/" replace />;
   }
 
