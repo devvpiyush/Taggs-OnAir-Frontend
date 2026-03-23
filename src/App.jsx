@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { connectSocket } from "@util/socket.util";
 import { socketEvents, beatTheHeart } from "@util/events.util";
 import { useMe } from "@hook/Auth";
-import { AppStatic, AppProgress } from "@component/Loaders";
+import { AppStatic } from "@component/Loaders";
 import { AccessWraper } from "@/context/Accessors";
 
 import "./App.css";
@@ -41,8 +41,6 @@ function App() {
     }, 1500);
     return () => clearTimeout(timer);
   }, []);
-
-  if (User?.isLoading) return <AppProgress />
 
   if (!minLoadComplete) return <AppStatic />;
 
