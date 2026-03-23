@@ -25,9 +25,7 @@ function Create() {
 
     try {
       const res = api("POST", "post/new/create");
-      console.log(res);
     } catch (err) {
-      console.log(err);
       SET_POST_ERROR(err);
     }
   }
