@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { connectSocket } from "@util/socket.util";
 import { socketEvents, beatTheHeart } from "@util/events.util";
 import { useMe } from "@hook/Auth";
-import { AppStatic } from "@component/Loaders";
+import { AppStatic, AppProgress } from "@component/Loaders";
 import { AccessWraper } from "@/context/Accessors";
 
 import "./App.css";
@@ -42,9 +42,9 @@ function App() {
     return () => clearTimeout(timer);
   }, []);
 
-  const isAppLoading = User?.isLoading || !minLoadComplete;
+  if (User?.isLoading) return <AppProgress />
 
-  if (isAppLoading) return <AppStatic />;
+  if (!minLoadComplete) return <AppStatic />;
 
   return (
     <AccessWraper User={User?.data}>
