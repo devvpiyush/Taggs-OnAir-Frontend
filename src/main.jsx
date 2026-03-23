@@ -46,7 +46,7 @@ const router = createBrowserRouter([
   },
 ]);
 
-const queryClient = new QuerClient()
+const queryClient = new QueryClient()
 
 createRoot(document.getElementById("root")).render(
     <QueryClientProvider client={queryClient}>
