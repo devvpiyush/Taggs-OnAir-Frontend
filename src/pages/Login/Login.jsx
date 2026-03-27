@@ -22,7 +22,7 @@ function Login() {
   const navigate = useNavigate();
 
   // Constants, States & References
-  const [USERNAME, SET_USERNAME] = useState("");
+  const [USERNAME_EMAIL, SET_USERNAME_EMAIL] = useState("");
   const [PASSWORD, SET_PASSWORD] = useState("");
   const [PASSWORD_VISIBILITY, SET_PASSWORD_VISIBILITY] = useState("hidden");
   const { mutate, isPending: LoginPending, isError, error } = useLogin();
@@ -33,11 +33,11 @@ function Login() {
         <Taggs />
         <div className="w-full flex flex-col gap-6 px-6">
           <AuthInput
-            placeholder="Username"
-            value={USERNAME}
+            placeholder="Username or Email"
+            value={USERNAME_EMAIL}
             minLength={3}
             maxLength={21}
-            onChange={(e) => SET_USERNAME(e.target.value)}
+            onChange={(e) => SET_USERNAME_EMAIL(e.target.value)}
           />
           <AuthInputWithIcon
             type={PASSWORD_VISIBILITY === "hidden" ? "password" : "text"}
@@ -70,10 +70,12 @@ function Login() {
             type="button"
             text={LoginPending ? "Logging in" : "Log in"}
             isDisabled={
-              USERNAME === "" || PASSWORD === "" || LoginPending ? true : false
+              USERNAME_EMAIL === "" || PASSWORD === "" || LoginPending
+                ? true
+                : false
             }
             onClick={() => {
-              mutate({ username: USERNAME, password: PASSWORD });
+              mutate({ usernameOrEmail: USERNAME_EMAIL, password: PASSWORD });
             }}
           />
           <Link

@@ -9,10 +9,10 @@ export function useLogin() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const post = async ({ username, password }) => {
+  const post = async ({ usernameOrEmail, password }) => {
     try {
-      const res = await api("POST", "auth/un/login", true, {
-        username,
+      const res = await api("POST", "auth/login", true, {
+        usernameOrEmail,
         password,
       });
       return res?.data;

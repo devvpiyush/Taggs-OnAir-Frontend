@@ -9,24 +9,32 @@ import api from "@util/api.util";
 // Assets
 import Warning from "@icon/Warning.svg";
 import Send from "@icon/Send.svg";
+import { decodeErrorCode } from "@util/decoders";
 
-function Create() {
+function Create({ toggle }) {
   // Constants
   const { me } = useOutletContext();
 
   // States
   const [CAPTION, SET_CAPTION] = useState("");
-  const [POST_ERROR, SET_POST_ERROR] = useState();
+  const [POST_ERROR, SET_POST_ERROR] = useState(null);
 
   // Functions
   async function onSubmit() {
-    if (!CAPTION || CAPTION === "")
-      return SET_POST_ERROR("Caption is Required.");
+    if (CAPTION === "") return SET_POST_ERROR("Caption is Required.");
 
+    SET_POST_ERROR(null);
+    toggle(false);
     try {
-      const res = api("POST", "post/new/create");
+      const res = await api("POST", "post/new/create", true, {
+        caption: CAPTION,
+      });
+      if (res?.isSuccess) {
+        toggle(true);
+        return SET_CAPTION("");
+      }
     } catch (err) {
-      SET_POST_ERROR(err);
+      SET_POST_ERROR(decodeErrorCode(err?.code));
     }
   }
   return (
@@ -97,7 +105,7 @@ function Create() {
                   className="text-md text-red-600 text-center font-medium"
                   style={{ fontFamily: "Poppins, sans-serif" }}
                 >
-                  Caption is Required.
+                  {POST_ERROR}
                 </p>
               </div>
             )}

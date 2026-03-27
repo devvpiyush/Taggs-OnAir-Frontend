@@ -1,10 +1,16 @@
+// External Modules
+import { useState } from "react";
+
 // Local Modules
 import Create from "./Create";
+import Created from "./Created";
 
 function Home() {
+  const [POSTED, SET_POSTED] = useState(false);
   return (
     <>
-      <Create />
+      {POSTED && <Created />}
+      <Create toggle={SET_POSTED} />
     </>
   );
 }
