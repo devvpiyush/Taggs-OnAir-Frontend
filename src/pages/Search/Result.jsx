@@ -1,0 +1,33 @@
+// External Modules
+import { Link } from "react-router-dom";
+
+function Result({ username, name, isVerified, profilePictureUrl }) {
+  return (
+    <div className="w-full bg-gray-700/10 px-4 py-4 rounded-2xl md:rounded-2xl flex flex-row items-center justify-between shadow-md md:shadow-sm">
+      <div className="flex flex-row gap-2 md:gap-3">
+        <img
+          src={profilePictureUrl}
+          alt={`${name}'s Profile Picture`}
+          className="min-w-12 max-w-12 min-h-12 max-h-12 rounded-full object-cover object-center"
+        />
+        <div className="flex flex-col">
+          <Link
+            to={`/${username}`}
+            className="font-semibold text-white tracking-wider"
+            style={{ fontFamily: "Poppins, sans-serif" }}
+          >
+            {username}
+          </Link>
+          <p
+            className="font-semibold text-gray-400 tracking-wide"
+            style={{ fontFamily: "Poppins, sans-serif" }}
+          >
+            {name}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default Result;

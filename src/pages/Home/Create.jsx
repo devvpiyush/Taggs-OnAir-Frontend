@@ -100,9 +100,13 @@ function Create({ toggle }) {
             ></textarea>
             {POST_ERROR && (
               <div className="w-full flex flex-row items-start justify-start gap-2">
-                <img src={Warning} alt="Warning_Icon" width={21} height={21} />
+                <img
+                  src={Warning}
+                  alt="Warning_Icon"
+                  className="min-w-5 max-w-5 min-h-5 max-h-5"
+                />
                 <p
-                  className="text-md text-red-600 text-center font-medium"
+                  className="text-sm md:text-md text-red-600 text-center font-medium"
                   style={{ fontFamily: "Poppins, sans-serif" }}
                 >
                   {POST_ERROR}
