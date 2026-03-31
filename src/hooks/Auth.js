@@ -9,20 +9,16 @@ export function useLogin() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const post = async ({ usernameOrEmail, password }) => {
-    try {
-      const res = await api("POST", "auth/login", true, {
-        usernameOrEmail,
-        password,
-      });
-      return res?.data;
-    } catch (err) {
-      throw err;
-    }
+  const call = async ({ usernameOrEmail, password }) => {
+    const res = await api("POST", "auth/login", true, {
+      usernameOrEmail,
+      password,
+    });
+    return res?.data;
   };
 
   return useMutation({
-    mutationFn: post,
+    mutationFn: call,
     onSuccess: async () => {
       await queryClient.invalidateQueries(["me"]);
       navigate("/");
@@ -31,18 +27,14 @@ export function useLogin() {
 }
 
 export function useMe() {
-  const fetch = async () => {
-    try {
-      const res = await api("GET", "auth/me");
-      return res?.data || null;
-    } catch (err) {
-      throw err;
-    }
+  const call = async () => {
+    const res = await api("GET", "auth/me");
+    return res?.data || null;
   };
 
   return useQuery({
     queryKey: ["me"], // Cache Key
-    queryFn: fetch,
+    queryFn: call,
     staleTime: 1000 * 60 * 5, // Fetch again after 5 Minutes.
     retry: false, // Restrict from retrying if Unauthorized
     refetchOnWindowFocus: false,

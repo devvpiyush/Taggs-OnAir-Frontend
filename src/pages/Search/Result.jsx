@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 function Result({ username, name, isVerified, profilePictureUrl }) {
   return (
-    <div className="w-full bg-gray-700/10 px-4 py-4 rounded-2xl md:rounded-2xl flex flex-row items-center justify-between shadow-md md:shadow-sm">
+    <div className="w-full bg-blue-900/10 px-4 py-4 rounded-2xl md:rounded-2xl flex flex-row items-center justify-between">
       <div className="flex flex-row gap-2 md:gap-3">
         <img
           src={profilePictureUrl}
