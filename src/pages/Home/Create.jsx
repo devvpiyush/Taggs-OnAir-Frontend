@@ -57,7 +57,7 @@ function Create({ toggle }) {
             />
           ) : (
             <img
-              src={me?.data?.profilePictureUrl || https://res.cloudinary.com/dtgta9nbo/image/upload/q_auto/f_auto/v1775106730/No_Profile_Picture_Icon_Tiktok_snc7gr.jpg}
+              src={me?.data?.profilePictureUrl || "https://res.cloudinary.com/dtgta9nbo/image/upload/q_auto/f_auto/v1775106730/No_Profile_Picture_Icon_Tiktok_snc7gr.jpg"}
               alt="User_Profile_Picture"
               className="min-w-12 max-w-12 min-h-12 max-h-12 rounded-full object-cover object-center shadow-sm cursor-pointer"
             />
