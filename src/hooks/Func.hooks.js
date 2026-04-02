@@ -5,7 +5,6 @@ import api from "@util/api.util";
 import { useQuery } from "@tanstack/react-query";
 
 export const useSearch = (input) => {
-if (input === "") return;
   input = input.trim().toLowerCase() || "";
 
   const call = async () => {
