@@ -102,6 +102,6 @@ export const decodedErrors = [
   {
     field: "caption",
     code: "CAPTION_INVALID_LENGTH",
-    message: "Caption is too short too long.",
+    message: "Caption is too short or long.",
   },
 ];
