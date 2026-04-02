@@ -39,7 +39,7 @@ function Create({ toggle }) {
   }
   return (
     <div className="w-full p-4">
-      <div className="px-4 py-2 border-2 border-[#1E1E1E] rounded-3xl transition-color ease-in-out duration-300 hover:border-(--primary-border-hover-color)">
+      <div className="p-4 border-2 border-[#1E1E1E] rounded-3xl transition-color ease-in-out duration-300 hover:border-(--primary-border-hover-color)">
         <div className="flex flex-row items-start justify-between gap-4">
           {me?.isLoading ? (
             <Skeleton
