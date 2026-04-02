@@ -26,7 +26,7 @@ function Search() {
           </div>
         )}
         {SearchQuery?.data?.length === 0 && (
-          <div className="w-full py-8 flex items-center justify-center">
+          <div className="w-full py-4 flex items-center justify-center">
             <p className="px-2 md:px-0 text-sm md:text-lg text-center font-semibold text-[#c0c0c0]">
               We couldn’t find anything… but we’re rooting for your next try!
             </p>
