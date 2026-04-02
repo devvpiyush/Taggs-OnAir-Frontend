@@ -10,7 +10,7 @@ function Button({ input }) {
     <div
       className="p-3 border border-(--primary-border-color) hover:border-(--primary-border-hover-color) rounded-full cursor-pointer"
       onClick={
-if (input === "") return;
+if (input === "" || !input) return;
 async () => {
         await SearchQuery.refetch();
       }}
