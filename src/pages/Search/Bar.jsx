@@ -13,7 +13,7 @@ function Bar({ value, UPDATE_SEARCH }) {
       style={{ fontFamily: "Poppins, sans-serif" }}
       placeholder="Search..."
       onKeyDown={async (e) => {
-        if (e.key === "Enter" && (value !=== "" || !value)) {
+        if (e.key === "Enter" && (value !== "" || !value)) {
           await SearchQuery.refetch();
         }
       }}
