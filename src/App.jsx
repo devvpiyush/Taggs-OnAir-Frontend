@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 // Local Modules
 import { connectSocket } from "@util/socket.util";
 import { socketEvents, beatTheHeart } from "@util/events.util";
-import { useMe } from "@hook/Auth";
+import { useMe } from "@hook/Auth.hooks";
 import { AppStatic } from "@component/Loaders";
 import { AccessWraper } from "@/context/Accessors";
 
