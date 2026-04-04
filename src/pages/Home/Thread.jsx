@@ -41,7 +41,7 @@ function Thread({ post, user }) {
       </div>
       <div className="md:pl-20 p-4">
         <p
-          className="text-lg text-[#c0c0c0] font-medium tracking-wider"
+          className="text-base md:text-lg text-[#c0c0c0] font-medium tracking-wider"
           style={{ fontFamily: "Poppins, sans-serif" }}
         >
           {(post?.caption.length > 450 &&
