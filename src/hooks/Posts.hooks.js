@@ -1,11 +1,18 @@
 // Local Modules
 import api from "@util/api.util";
 
+// External Modules
+import { useQuery } from "@tanstack/react-query";
+
 export const useFeed = () => {
   const call = async () => {
     const res = await api("GET", `post/feed`);
-    if (res?.isSuccess) console.log(res?.meta?.posts);
+    return res?.meta?.data || [];
   };
 
-  call();
+  return useQuery({
+    queryKey: ["feed"],
+    queryFn: call,
+    refetchOnWindowFocus: false,
+  });
 };

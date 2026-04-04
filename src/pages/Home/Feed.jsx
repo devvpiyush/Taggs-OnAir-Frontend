@@ -1,16 +1,20 @@
-// External Modules
-import { useEffect } from "react";
-
 // Local Modules
-import Post from "./Post";
+import Thread from "./Thread";
 import { useFeed } from "@hook/Posts.hooks";
 
 function Feed() {
-  // Effects
-  useEffect(() => {
-    useFeed();
-  }, []);
-  return <Post />;
+  // Constants
+  const Feed = useFeed();
+
+  return (
+    <div className="flex flex-col gap-4 scroll-auto">
+      {!Feed.isFetching &&
+        Feed.data.map((post) => {
+          if (post.type === "thread")
+            return <Thread key={post._id} post={post} user={post.postedBy} />;
+        })}
+    </div>
+  );
 }
 
 export default Feed;

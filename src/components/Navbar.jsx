@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 
 function Navbar() {
   return (
-    <div className="w-full px-6 py-3 flex flex-row items-center justify-between border border-b-(--primary-border-color)">
+    <div className="w-full px-6 py-3 flex flex-row items-center justify-between bg-[#0d0d0d] border border-b-(--primary-border-color)">
       <Link to="/">
         <img src={CreateIcon} alt="Create_Icon" className="cursor-pointer" />
       </Link>
