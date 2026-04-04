@@ -49,7 +49,7 @@ function Thread({ post, user }) {
             post?.caption}
         </p>
       </div>
-      <div className="px-2 py-4 md:pl-20 border-t-2 border-[#1E1E1E] rounded-x-3xl">
+      <div className="px-6 py-4 md:pl-20 border-t-2 border-[#1E1E1E] rounded-x-3xl">
         <div className="w-fit flex flex-row items-center justify-center gap-3">
           <img
             src={LikeIcon}
