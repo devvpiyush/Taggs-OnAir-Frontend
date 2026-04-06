@@ -21,35 +21,26 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       {
-        element: <Minimal />,
-        children: [
-          {
-            path: "/login",
-            element: <Login />,
-          },
-        ],
+        path: "/login",
+        element: <Login />,
       },
       {
-        element: <Classic />,
-        children: [
-          {
-            index: true,
-            element: <Home />,
-          },
-        ],
+        index: true,
+        path: "/",
+        element: <Home />,
       },
       {
-        element: <Classic excluded="Header" />,
-        children: [{ path: "/search", element: <Search /> }],
+        path: "/search",
+        element: <Search />,
       },
     ],
   },
 ]);
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient();
 
 createRoot(document.getElementById("root")).render(
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>
+  <QueryClientProvider client={queryClient}>
+    <RouterProvider router={router} />
+  </QueryClientProvider>,
 );

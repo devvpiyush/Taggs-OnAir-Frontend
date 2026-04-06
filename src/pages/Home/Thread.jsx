@@ -1,5 +1,7 @@
 // External Modules
 import { Link } from "react-router-dom";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 
 // Assets
 import VerifiedIcon from "@icon/Verified.svg";
@@ -7,6 +9,8 @@ import OptionsIcon from "@icon/Options.svg";
 import LikeIcon from "@icon/Like.svg";
 
 function Thread({ post, user }) {
+  // Constants
+  const createdAt = dayjs.extend(relativeTime);
   return (
     <div className="w-full border-2 border-[#1E1E1E] rounded-3xl">
       <div>
@@ -28,7 +32,9 @@ function Thread({ post, user }) {
                 </Link>
                 {user?.isVerified && <img src={VerifiedIcon} width={20} />}
               </div>
-              <p className="text-[#c0c0c0] font-medium">5 Hours ago</p>
+              <p className="text-[#c0c0c0] font-medium">
+                {createdAt(post?.createdAt).fromNow()}
+              </p>
             </div>
           </div>
           <img
