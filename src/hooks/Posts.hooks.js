@@ -16,3 +16,11 @@ export const useFeed = () => {
     refetchOnWindowFocus: false,
   });
 };
+
+export const useLike = (id) => {
+  const call = async () => {
+    const res = await api("POST", `post/like/${id}`);
+    console.log(res);
+  };
+  call();
+};

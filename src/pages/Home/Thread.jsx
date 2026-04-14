@@ -8,9 +8,10 @@ import VerifiedIcon from "@icon/Verified.svg";
 import OptionsIcon from "@icon/Options.svg";
 import LikeIcon from "@icon/Like.svg";
 
-function Thread({ post, user }) {
+function Thread({ post, user, action }) {
   // Constants
   const createdAt = dayjs.extend(relativeTime);
+
   return (
     <div className="w-full border-2 border-[#1E1E1E] rounded-3xl">
       <div>
@@ -45,9 +46,9 @@ function Thread({ post, user }) {
           />
         </div>
       </div>
-      <div className="md:pl-20 p-4">
+      <div className="md:pl-20 px-6 py-4">
         <p
-          className="text-sm md:text-lg text-[#c0c0c0] font-medium tracking-wider"
+          className="text-md md:text-lg text-[#c0c0c0] font-medium tracking-wider"
           style={{ fontFamily: "Poppins, sans-serif" }}
         >
           {(post?.caption.length > 450 &&
@@ -55,8 +56,13 @@ function Thread({ post, user }) {
             post?.caption}
         </p>
       </div>
-      <div className="px-6 py-4 md:pl-20 border-t-2 border-[#1E1E1E] rounded-x-3xl">
-        <div className="w-fit flex flex-row items-center justify-center gap-3">
+      <div className="px-2 py-2 md:pl-18 rounded-x-3xl">
+        <div
+          className="px-4 py-2 w-fit flex flex-row items-center justify-center gap-3 transition-colors ease-in-out duration-200 hover:bg-[#232323] rounded-xl cursor-pointer"
+          onClick={() => {
+            action("LIKE", post?._id);
+          }}
+        >
           <img
             src={LikeIcon}
             alt="Like_Icon"

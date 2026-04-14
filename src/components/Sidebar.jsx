@@ -1,5 +1,6 @@
 // External Modules
 import { Link, useOutletContext } from "react-router-dom";
+import Skeleton from "@mui/material/Skeleton";
 
 // Local Modules
 import styles from "@style/sidebar.module.css";
@@ -45,33 +46,85 @@ function Sidebar() {
           <p className="text-white text-xl font-semibold">Notifications</p>
         </Link>
       </div>
-      <div className="py-2 px-4 flex flex-row items-center justify-start gap-4 transition-colors ease-in-out duration-200 hover:bg-[#232323] rounded-xl cursor-pointer">
-        <img
-          src={
-            me?.data?.profilePictureUrl ||
-            "https://res.cloudinary.com/dtgta9nbo/image/upload/q_auto/f_auto/v1775106730/No_Profile_Picture_Icon_Tiktok_snc7gr.jpg"
-          }
-          alt="User_Profile_Picture"
-          className="min-w-12 max-w-12 min-h-12 max-h-12 rounded-full object-cover object-center shadow-sm cursor-pointer"
-        />
+
+      <div className="w-fit py-2 px-4 flex flex-row items-center justify-start gap-4 transition-colors self-start ease-in-out duration-200 hover:bg-[#232323] rounded-xl cursor-pointer">
+        {me?.isLoading ? (
+          <Skeleton
+            variant="circular"
+            width={48}
+            height={48}
+            sx={{
+              bgcolor: "#1a1a1a",
+              "::after": {
+                background:
+                  "linear-gradient(90deg, transparent, #2a2a2a, transparent)",
+              },
+            }}
+            animation="wave"
+          />
+        ) : (
+          <img
+            src={
+              me?.data?.profilePictureUrl ||
+              "https://res.cloudinary.com/dtgta9nbo/image/upload/q_auto/f_auto/v1775106730/No_Profile_Picture_Icon_Tiktok_snc7gr.jpg"
+            }
+            alt="User_Profile_Picture"
+            className="min-w-12 max-w-12 min-h-12 max-h-12 rounded-full object-cover object-center shadow-sm cursor-pointer"
+          />
+        )}
+
         <div>
           <div className="flex flex-row gap-2">
-            <span
-              className="font-semibold text-white tracking-wide whitespace-nowrap"
-              style={{ fontFamily: "Poppins, sans-serif" }}
-            >
-              {me?.data?.name}
-            </span>
-            {me?.data?.isVerified && (
-              <img src={VerifiedIcon} width={20} alt="Verified_Icon" />
+            {me?.isLoading ? (
+              <Skeleton
+                variant="text"
+                animation="wave"
+                width={"21ch"}
+                height={30}
+                sx={{
+                  bgcolor: "#1a1a1a",
+                  "::after": {
+                    background:
+                      "linear-gradient(90deg, transparent, #2a2a2a, transparent)",
+                  },
+                }}
+              />
+            ) : (
+              <div className="flex flex-row gap-2">
+                <span
+                  className="font-semibold text-white tracking-wide whitespace-nowrap"
+                  style={{ fontFamily: "Poppins, sans-serif" }}
+                >
+                  {me?.data?.name}
+                </span>
+                {me?.data?.isVerified && (
+                  <img src={VerifiedIcon} width={20} alt="Verified_Icon" />
+                )}
+              </div>
             )}
           </div>
-          <span
-            className="text-sm text-gray-400 font-medium tracking-wide"
-            style={{ fontFamily: "Poppins, sans-serif" }}
-          >
-            @{me?.data?.username}
-          </span>
+          {me?.isLoading ? (
+            <Skeleton
+              variant="text"
+              animation="wave"
+              width={"12ch"}
+              height={30}
+              sx={{
+                bgcolor: "#1a1a1a",
+                "::after": {
+                  background:
+                    "linear-gradient(90deg, transparent, #2a2a2a, transparent)",
+                },
+              }}
+            />
+          ) : (
+            <span
+              className="text-sm text-gray-400 font-medium tracking-wide"
+              style={{ fontFamily: "Poppins, sans-serif" }}
+            >
+              @{me?.data?.username}
+            </span>
+          )}
         </div>
       </div>
     </div>
