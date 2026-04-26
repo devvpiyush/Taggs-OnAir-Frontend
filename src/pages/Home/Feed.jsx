@@ -7,7 +7,7 @@ function Feed() {
   const Feed = useFeed();
 
   return (
-    <div className="flex flex-col gap-4 scroll-auto">
+    <div className="pb-17 md:pb-0 flex flex-col gap-4 scroll-auto">
       {!Feed.isFetching &&
         Feed.data.map((post) => {
           return <Schema key={post?._id} post={post} user={post?.postedBy} />;

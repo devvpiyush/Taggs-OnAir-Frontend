@@ -9,7 +9,7 @@ import OptionsIcon from "@icon/Options.svg";
 import LikeIcon from "@icon/Like.svg";
 import CommentsIcon from "@icon/Comments.svg";
 
-function Thread({ post, user, action }) {
+function Thread({ post, user }) {
   // Constants
   const createdAt = dayjs.extend(relativeTime);
 
@@ -55,14 +55,9 @@ function Thread({ post, user, action }) {
             post?.caption}
         </p>
       </div>
-      <div className="w-full md:pl-18 flex flex-row items-center">
+      <div className="w-full md:pl-14 flex flex-row items-center">
         <div className="px-2 py-2 rounded-x-3xl">
-          <div
-            className="px-4 py-2 w-fit flex flex-row items-center justify-center gap-3 transition-colors ease-in-out duration-200 hover:bg-[#232323] rounded-xl cursor-pointer"
-            onClick={() => {
-              action("LIKE", post?._id);
-            }}
-          >
+          <div className="px-4 py-2 w-fit flex flex-row items-center justify-center gap-3 transition-colors ease-in-out duration-200 hover:bg-[#232323] rounded-xl cursor-pointer">
             <img
               src={LikeIcon}
               alt="Like_Icon"

@@ -9,7 +9,7 @@ function Created() {
         className="text-sm text-white font-medium tracking-wider"
         style={{ fontFamily: "Poppins, sans-serif" }}
       >
-        Thread has been shared Successfully.
+        Thread has been shared.
       </h1>
     </div>
   );
