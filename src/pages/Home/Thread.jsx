@@ -7,6 +7,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import VerifiedIcon from "@icon/Verified.svg";
 import OptionsIcon from "@icon/Options.svg";
 import LikeIcon from "@icon/Like.svg";
+import CommentsIcon from "@icon/Comments.svg";
 
 function Thread({ post, user, action }) {
   // Constants
@@ -14,37 +15,35 @@ function Thread({ post, user, action }) {
 
   return (
     <div className="w-full border-2 border-[#1E1E1E] rounded-3xl">
-      <div>
-        <div className="p-4 flex flex-row items-center justify-between border-b-2 border-[#1E1E1E] rounded-x-3xl">
-          <div className="flex flex-row gap-4">
-            <img
-              src={user?.profilePictureUrl}
-              alt={`${user?.username}'s Profile Picture`}
-              className="min-w-12 max-w-12 min-h-12 max-h-12 rounded-full object-cover object-center shadow-sm cursor-pointer"
-            />
-            <div className="flex flex-col">
-              <div className="flex flex-row gap-2">
-                <Link
-                  to={`/${user?.username}`}
-                  className="font-semibold text-white tracking-wide whitespace-nowrap"
-                  style={{ fontFamily: "Poppins, sans-serif" }}
-                >
-                  {user?.name}
-                </Link>
-                {user?.isVerified && <img src={VerifiedIcon} width={20} />}
-              </div>
-              <p className="text-[#c0c0c0] font-medium">
-                {createdAt(post?.createdAt).fromNow()}
-              </p>
-            </div>
-          </div>
+      <div className="p-4 flex flex-row items-center justify-between border-b-2 border-[#1E1E1E] rounded-x-3xl">
+        <div className="flex flex-row gap-4">
           <img
-            src={OptionsIcon}
-            alt="Options_Icon"
-            width={30}
-            className="cursor-pointer"
+            src={user?.profilePictureUrl}
+            alt={`${user?.username}'s Profile Picture`}
+            className="min-w-12 max-w-12 min-h-12 max-h-12 rounded-full object-cover object-center shadow-sm cursor-pointer"
           />
+          <div className="flex flex-col">
+            <div className="flex flex-row items-center gap-2">
+              <Link
+                to={`/${user?.username}`}
+                className="font-semibold text-white tracking-wide whitespace-nowrap"
+                style={{ fontFamily: "Poppins, sans-serif" }}
+              >
+                {user?.name}
+              </Link>
+              {user?.isVerified && <img src={VerifiedIcon} width={20} />}
+            </div>
+            <p className="text-[#c0c0c0] font-medium">
+              {createdAt(post?.createdAt).fromNow()}
+            </p>
+          </div>
         </div>
+        <img
+          src={OptionsIcon}
+          alt="Options_Icon"
+          width={30}
+          className="cursor-pointer"
+        />
       </div>
       <div className="md:pl-20 px-6 py-4">
         <p
@@ -56,20 +55,33 @@ function Thread({ post, user, action }) {
             post?.caption}
         </p>
       </div>
-      <div className="px-2 py-2 md:pl-18 rounded-x-3xl">
-        <div
-          className="px-4 py-2 w-fit flex flex-row items-center justify-center gap-3 transition-colors ease-in-out duration-200 hover:bg-[#232323] rounded-xl cursor-pointer"
-          onClick={() => {
-            action("LIKE", post?._id);
-          }}
-        >
-          <img
-            src={LikeIcon}
-            alt="Like_Icon"
-            width={30}
-            className="cursor-pointer"
-          />
-          <p className="text-white font-semibold">{post?.likesCount}</p>
+      <div className="w-full md:pl-18 flex flex-row items-center">
+        <div className="px-2 py-2 rounded-x-3xl">
+          <div
+            className="px-4 py-2 w-fit flex flex-row items-center justify-center gap-3 transition-colors ease-in-out duration-200 hover:bg-[#232323] rounded-xl cursor-pointer"
+            onClick={() => {
+              action("LIKE", post?._id);
+            }}
+          >
+            <img
+              src={LikeIcon}
+              alt="Like_Icon"
+              width={30}
+              className="cursor-pointer"
+            />
+            <p className="text-white font-semibold">{post?.likesCount}</p>
+          </div>
+        </div>
+        <div className="px-2 py-2 rounded-x-3xl">
+          <div className="px-4 py-2 w-fit flex flex-row items-center justify-center gap-3 transition-colors ease-in-out duration-200 hover:bg-[#232323] rounded-xl cursor-pointer">
+            <img
+              src={CommentsIcon}
+              alt="Comments_Icon"
+              width={30}
+              className="cursor-pointer"
+            />
+            <p className="text-white font-semibold">{post?.commentsCount}</p>
+          </div>
         </div>
       </div>
     </div>
