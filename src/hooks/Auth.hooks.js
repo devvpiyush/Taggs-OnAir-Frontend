@@ -3,14 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 // Local Modules
-import api from "@util/api.util";
+import API from "@util/api.util";
 
 export function useLogin() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const call = async ({ usernameOrEmail, password }) => {
-    const res = await api("POST", "auth/login", true, {
+    const res = await API("POST", "auth/login", true, {
       usernameOrEmail,
       password,
     });
@@ -28,8 +28,8 @@ export function useLogin() {
 
 export function useMe() {
   const call = async () => {
-    const res = await api("GET", "auth/me");
-    return res?.data || null;
+    const res = await API("GET", "auth/me");
+    return res?.meta?.data || null;
   };
 
   return useQuery({

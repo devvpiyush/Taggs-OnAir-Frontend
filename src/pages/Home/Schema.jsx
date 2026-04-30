@@ -1,6 +1,5 @@
 // Local Modules
 import Thread from "./Thread";
-import { useLike } from "@hook/Posts.hooks";
 
 function Schema({ post, user }) {
   if (post.type === "thread") {

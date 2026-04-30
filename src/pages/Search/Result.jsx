@@ -6,7 +6,10 @@ function Result({ username, name, isVerified, profilePictureUrl }) {
     <div className="w-full bg-blue-900/10 px-4 py-4 rounded-2xl md:rounded-2xl flex flex-row items-center justify-between">
       <div className="flex flex-row gap-2 md:gap-3">
         <img
-          src={profilePictureUrl || "https://res.cloudinary.com/dtgta9nbo/image/upload/q_auto/f_auto/v1775106730/No_Profile_Picture_Icon_Tiktok_snc7gr.jpg"}
+          src={
+            profilePictureUrl ||
+            "https://res.cloudinary.com/dtgta9nbo/image/upload/q_auto/f_auto/v1775106730/No_Profile_Picture_Icon_Tiktok_snc7gr.jpg"
+          }
           alt={`${name}'s Profile Picture`}
           className="min-w-12 max-w-12 min-h-12 max-h-12 rounded-full object-cover object-center"
         />

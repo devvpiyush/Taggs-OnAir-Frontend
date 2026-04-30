@@ -1,7 +1,7 @@
 // External Modules
 import axios from "axios";
 
-async function api(
+async function API(
   REQUEST_METHOD,
   END_POINT,
   WITH_CREDENTIALS = true,
@@ -29,4 +29,4 @@ async function api(
   }
 }
 
-export default api;
+export default API;

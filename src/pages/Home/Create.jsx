@@ -1,24 +1,27 @@
 // External Modules
 import { Link, useOutletContext } from "react-router-dom";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Skeleton from "@mui/material/Skeleton";
 
 // Local Modules
-import api from "@util/api.util";
+import API from "@util/api.util";
+import { decodeErrorCode } from "@util/decoders";
 
 // Assets
+import ImageIcon from "@icon/Image.svg";
 import VerifiedIcon from "@icon/Verified.svg";
 import WarningIcon from "@icon/Warning.svg";
 import SendIcon from "@icon/Send.svg";
-import { decodeErrorCode } from "@util/decoders";
 
 function Create({ toggle }) {
   // Constants
   const { me } = useOutletContext();
 
-  // States
+  // States & References
   const [CAPTION, SET_CAPTION] = useState("");
   const [POST_ERROR, SET_POST_ERROR] = useState(null);
+  const [IMAGE_FILE, SET_IMAGE_FILE] = useState(null);
+  const fileReference = useRef(null);
 
   // Functions
   async function onSubmit() {
@@ -27,7 +30,7 @@ function Create({ toggle }) {
     SET_POST_ERROR(null);
     toggle(false);
     try {
-      const res = await api("POST", "post/new/create", true, {
+      const res = await API("POST", "post/new/create", true, {
         caption: CAPTION,
       });
       if (res?.isSuccess) {
@@ -121,6 +124,24 @@ function Create({ toggle }) {
               </p>
             </div>
           )}
+          <div>
+            <img
+              src={ImageIcon}
+              alt="Image_Icon"
+              className="cursor-pointer"
+              onClick={() => fileReference.current.click()}
+            />
+            <input
+              type="file"
+              accept="image/*"
+              ref={fileReference}
+              hidden
+              onChange={(e) => {
+                if (e.target.files[0])
+                  SET_IMAGE_FILE(URL.createObjectURL(e.target.files[0]));
+              }}
+            />
+          </div>
           <div className="w-full flex flex-row items-center justify-between">
             <div className="w-full flex flex-row items-center gap-6 sm:gap-12"></div>
             <button

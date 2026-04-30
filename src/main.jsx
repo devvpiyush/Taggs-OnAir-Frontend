@@ -6,15 +6,16 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 // Local Modules
 import App from "./App.jsx";
-import Minimal from "./layouts/Minimal.jsx";
-import Classic from "./layouts/Classic.jsx";
+import Minimal from "./layouts/Minimal";
+import Classic from "./layouts/Classic";
 
 import "./index.css";
 
 // Pages
-import Home from "@page/Home/Home.jsx";
-import Search from "@page/Search/Search.jsx";
-import Login from "@page/Login/Login.jsx";
+import Home from "@page/Home/Home";
+import Search from "@page/Search/Search";
+import Login from "@page/Login/Login";
+import Profile from "@page/Profile/Profile";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login />,
+      },
+      {
+        path: "/:username",
+        element: <Profile />,
       },
     ],
   },
