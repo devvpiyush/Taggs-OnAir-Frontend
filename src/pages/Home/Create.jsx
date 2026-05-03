@@ -110,7 +110,7 @@ function Create({ toggle }) {
             }}
           ></textarea>
           {POST_ERROR && (
-            <div className="w-full flex flex-row items-start justify-start gap-2">
+            <div className="mb-3 w-full flex flex-row items-start justify-start gap-2">
               <img
                 src={WarningIcon}
                 alt="Warning_Icon"

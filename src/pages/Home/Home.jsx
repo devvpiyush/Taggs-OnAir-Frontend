@@ -3,9 +3,11 @@ import { useState } from "react";
 
 // Local Modules
 import Classic from "@/layouts/Classic";
-import Create from "./Create";
+import { BrandHead } from "@component/Brand";
 import Created from "./Created";
+import Create from "./Create";
 import Feed from "./Feed";
+import Suggestions from "./Suggestions";
 
 function Home() {
   // States
@@ -13,18 +15,14 @@ function Home() {
 
   return (
     <Classic>
-      <div className="w-full p-4 flex flex-col gap-4">
-        <div className="hidden md:flex w-full py-2 items-center justify-center border-b border-[#232323]">
-          <h1
-            className="text-3xl mb-2 text-white tracking-wider"
-            style={{ fontFamily: "Damion, sans-serif" }}
-          >
-            Taggs
-          </h1>
+      <BrandHead />
+      <div className="p-4 flex flex-row gap-4">
+        <div className="w-full flex flex-col gap-4">
+          {POSTED && <Created />}
+          <Create toggle={SET_POSTED} />
+          <Feed />
         </div>
-        {POSTED && <Created />}
-        <Create toggle={SET_POSTED} />
-        <Feed />
+        <Suggestions />
       </div>
     </Classic>
   );

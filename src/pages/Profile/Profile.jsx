@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 // Local Modules
 import API from "@util/api.util.js";
+import { BrandHead } from "@component/Brand";
 import Classic from "@/layouts/Classic";
 
 function Profile() {
@@ -24,6 +25,7 @@ function Profile() {
 
   return (
     <Classic>
+      <BrandHead />
       <div className="p-3 md:p-12">
         <img
           src={PROFILE?.profilePictureUrl}
