@@ -8,7 +8,7 @@ export const useSearch = (input) => {
   input = input.trim().toLowerCase() || "";
 
   const call = async () => {
-    const res = await API("GET", `func/search?query=${input}`);
+    const res = await API("GET", `search/accounts?query=${input}`);
     return res?.meta?.data || [];
   };
 

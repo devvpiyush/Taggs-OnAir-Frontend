@@ -1,6 +1,6 @@
 // Assets
 import SearchIcon from "@icon/Search.svg";
-import { useSearch } from "@hook/Func.hooks";
+import { useSearch } from "@hook/Search.hooks";
 
 function Button({ input }) {
   // Constants
@@ -9,9 +9,8 @@ function Button({ input }) {
   return (
     <div
       className="p-3 border border-(--primary-border-color) hover:border-(--primary-border-hover-color) rounded-full cursor-pointer"
-      onClick={
-async () => {
-if (input === "" || !input) return;
+      onClick={async () => {
+        if (input === "" || !input) return;
         await SearchQuery.refetch();
       }}
     >

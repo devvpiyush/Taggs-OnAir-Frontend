@@ -7,7 +7,7 @@ import { CircularCoolBlue } from "@component/Loaders";
 import Bar from "./Bar";
 import Button from "./Button";
 import Result from "./Result";
-import { useSearch } from "@hook/Func.hooks";
+import { useSearch } from "@hook/Search.hooks";
 
 function Search() {
   // Constants & States

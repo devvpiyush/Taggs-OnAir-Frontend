@@ -8,7 +8,16 @@ import API from "@util/api.util.js";
 // Assets
 import VerifiedIcon from "@icon/Verified.svg";
 
-function Suggestion({ name, username, isVerified, url }) {
+function Suggestion({ id, name, username, isVerified, url }) {
+  // States
+  const [RELATIONSHIP_STATUS, UPDATE_RELATIONSHIP_STATUS] = useState("unknown");
+
+  // Functions
+  async function handleFollow(followingId) {
+    const result = await API("POST", `follow/follow/${followingId}`);
+    if (result) UPDATE_RELATIONSHIP_STATUS(result?.meta?.status);
+  }
+
   return (
     <div className="flex flex-row items-center justify-between">
       <div className="flex gap-2">
@@ -35,12 +44,17 @@ function Suggestion({ name, username, isVerified, url }) {
             className="text-sm text-[#c0c0c0] font-medium tracking-wide whitespace-nowrap"
             style={{ fontFamily: "Poppins, sans-serif" }}
           >
-            @{username}
+            @{username.length < 12 ? username : username.slice(0, 12) + "..."}
           </Link>
         </div>
       </div>
-      <button className="px-4 py-1.5 text-base text-white font-normal bg-[#192530] rounded-full cursor-pointer tracking-wide">
-        Follow
+      <button
+        className="px-4 py-1.5 text-base text-white font-normal bg-[#192530] rounded-full cursor-pointer tracking-wide"
+        onClick={() => RELATIONSHIP_STATUS === "unknown" && handleFollow(id)}
+      >
+        {RELATIONSHIP_STATUS === "unknown" && "Follow"}
+        {RELATIONSHIP_STATUS === "followed" && "Unfollow"}
+        {RELATIONSHIP_STATUS === "requested" && "Requested"}
       </button>
     </div>
   );
@@ -49,9 +63,11 @@ function Suggestion({ name, username, isVerified, url }) {
 function Suggestions() {
   // States
   const [SUGGESTIONS, UPDATE_SUGGESTIONS] = useState([]);
+
+  // Side-Effects
   useEffect(() => {
     const call = async () => {
-      const result = await API("GET", "connect/suggestions");
+      const result = await API("GET", "suggestions/foryou");
       UPDATE_SUGGESTIONS(result?.data);
     };
 
@@ -65,6 +81,7 @@ function Suggestions() {
           return (
             <Suggestion
               key={suggestion?._id}
+              id={suggestion?._id}
               name={suggestion?.name}
               username={suggestion?.username}
               url={suggestion?.profilePictureUrl}

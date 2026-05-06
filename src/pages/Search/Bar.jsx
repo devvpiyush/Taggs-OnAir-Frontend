@@ -1,5 +1,5 @@
 // Local Modules
-import { useSearch } from "@hook/Func.hooks";
+import { useSearch } from "@hook/Search.hooks";
 
 function Bar({ value, UPDATE_SEARCH }) {
   // Constants
