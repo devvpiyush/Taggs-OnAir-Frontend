@@ -33,7 +33,7 @@ function Suggestion({ id, name, username, isVerified, url }) {
               className="text-sm text-white font-medium tracking-wide whitespace-nowrap"
               style={{ fontFamily: "Poppins, sans-serif" }}
             >
-              {name}
+              {name.length < 16 ? username : username.slice(0, 16) + "..."}
             </Link>
             {isVerified && (
               <img src={VerifiedIcon} width={20} alt="Verified_Icon" />

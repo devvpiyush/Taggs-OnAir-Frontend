@@ -7,7 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 export const useFeed = () => {
   const call = async () => {
     const res = await API("GET", `post/feed`);
-    return res?.meta?.data || [];
+    return res?.data?.results || [];
   };
 
   return useQuery({

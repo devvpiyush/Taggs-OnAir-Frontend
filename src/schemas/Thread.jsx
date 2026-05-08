@@ -9,32 +9,41 @@ import OptionsIcon from "@icon/Options.svg";
 import LikeIcon from "@icon/Like.svg";
 import CommentsIcon from "@icon/Comments.svg";
 
-function Thread({ post, user }) {
+function Thread({
+  caption = "",
+  createdAt = Date.now(),
+  likesCount = 0,
+  commentsCount = 0,
+  creatorUsername = "",
+  creatorName = "",
+  creatorProfilePictureUrl = "https://res.cloudinary.com/dtgta9nbo/image/upload/v1775106730/No_Profile_Picture_Icon_Tiktok_snc7gr.jpg",
+  isCreatorVerified = false,
+}) {
   // Constants
-  const createdAt = dayjs.extend(relativeTime);
+  const creationAt = dayjs.extend(relativeTime);
 
   return (
     <div className="w-full border-2 border-[#1E1E1E] rounded-3xl">
       <div className="p-4 flex flex-row items-center justify-between border-b-2 border-[#1E1E1E] rounded-x-3xl">
         <div className="flex flex-row gap-4">
           <img
-            src={user?.profilePictureUrl}
-            alt={`${user?.username}'s Profile Picture`}
+            src={creatorProfilePictureUrl}
+            alt={`${creatorUsername}'s Profile Picture`}
             className="min-w-12 max-w-12 min-h-12 max-h-12 rounded-full object-cover object-center shadow-sm cursor-pointer"
           />
           <div className="flex flex-col">
             <div className="flex flex-row items-center gap-2">
               <Link
-                to={`/${user?.username}`}
+                to={`/${creatorUsername}`}
                 className="font-semibold text-white tracking-wide whitespace-nowrap"
                 style={{ fontFamily: "Poppins, sans-serif" }}
               >
-                {user?.name}
+                {creatorName}
               </Link>
-              {user?.isVerified && <img src={VerifiedIcon} width={20} />}
+              {isCreatorVerified && <img src={VerifiedIcon} width={20} />}
             </div>
             <p className="text-[#c0c0c0] font-medium">
-              {createdAt(post?.createdAt).fromNow()}
+              {creationAt(createdAt).fromNow()}
             </p>
           </div>
         </div>
@@ -50,9 +59,7 @@ function Thread({ post, user }) {
           className="text-md md:text-lg text-[#c0c0c0] font-medium tracking-wider"
           style={{ fontFamily: "Poppins, sans-serif" }}
         >
-          {(post?.caption.length > 450 &&
-            post?.caption.slice(0, 450) + "...") ||
-            post?.caption}
+          {(caption.length > 450 && caption.slice(0, 450) + "...") || caption}
         </p>
       </div>
       <div className="w-full md:pl-14 flex flex-row items-center">
@@ -64,7 +71,7 @@ function Thread({ post, user }) {
               width={30}
               className="cursor-pointer"
             />
-            <p className="text-white font-semibold">{post?.likesCount}</p>
+            <p className="text-white font-semibold">{likesCount}</p>
           </div>
         </div>
         <div className="px-2 py-2 rounded-x-3xl">
@@ -75,7 +82,7 @@ function Thread({ post, user }) {
               width={30}
               className="cursor-pointer"
             />
-            <p className="text-white font-semibold">{post?.commentsCount}</p>
+            <p className="text-white font-semibold">{commentsCount}</p>
           </div>
         </div>
       </div>
