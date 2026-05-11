@@ -1,7 +1,7 @@
 // External Modules
 import { useLocation, Navigate } from "react-router-dom";
 
-const PROTECTED_ROUTES = ["/", "/search"];
+const PROTECTED_ROUTES = ["/", "/search", "/:username"];
 const USER_PROTECTED_ROUTES = ["/login"];
 
 export const AccessWraper = ({ children, User }) => {

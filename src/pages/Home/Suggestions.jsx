@@ -33,7 +33,7 @@ function Suggestion({ id, name, username, isVerified, url }) {
               className="text-sm text-white font-medium tracking-wide whitespace-nowrap"
               style={{ fontFamily: "Poppins, sans-serif" }}
             >
-              {name.length < 16 ? username : username.slice(0, 16) + "..."}
+              {name.length <= 14 ? name : name.slice(0, 14) + "..."}
             </Link>
             {isVerified && (
               <img src={VerifiedIcon} width={20} alt="Verified_Icon" />
@@ -44,7 +44,7 @@ function Suggestion({ id, name, username, isVerified, url }) {
             className="text-sm text-[#c0c0c0] font-medium tracking-wide whitespace-nowrap"
             style={{ fontFamily: "Poppins, sans-serif" }}
           >
-            @{username.length < 12 ? username : username.slice(0, 12) + "..."}
+            @{username.length <= 12 ? username : username.slice(0, 12) + "..."}
           </Link>
         </div>
       </div>
@@ -76,7 +76,7 @@ function Suggestions() {
   return (
     <div className="hidden lg:flex max-w-[27%] w-full h-fit p-4 border-2 border-[#1E1E1E] rounded-3xl">
       <div className="w-full flex flex-col gap-6">
-        <h2 className="text-lg font-semibold text-white">Just, for you</h2>
+        <h2 className="text-lg font-semibold text-white">Discover People</h2>
         {SUGGESTIONS.map((suggestion) => {
           return (
             <Suggestion
