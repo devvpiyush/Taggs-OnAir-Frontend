@@ -1,6 +1,8 @@
 // External Modules
 import { Link, useOutletContext } from "react-router-dom";
-import Skeleton from "@mui/material/Skeleton";
+
+// Local Modules
+import { SkeleWithUserPicture } from "@component/profile.components";
 
 // Local Modules
 import styles from "@style/sidebar.module.css";
@@ -38,32 +40,15 @@ function Sidebar() {
         </Link>
       </div>
       <div className="w-fit p-3 flex flex-row items-center justify-start gap-4 transition-colors self-start ease-in-out duration-200 hover:bg-[#232323] rounded-full cursor-pointer">
-        {me?.isLoading ? (
-          <Skeleton
-            variant="circular"
-            width={48}
-            height={48}
-            sx={{
-              bgcolor: "#1a1a1a",
-              "::after": {
-                background:
-                  "linear-gradient(90deg, transparent, #2a2a2a, transparent)",
-              },
-            }}
-            animation="wave"
-          />
-        ) : (
-          <Link to={`/${me?.data?.username}`}>
-            <img
-              src={
-                me?.data?.profilePictureUrl ||
-                "https://res.cloudinary.com/dtgta9nbo/image/upload/q_auto/f_auto/v1775106730/No_Profile_Picture_Icon_Tiktok_snc7gr.jpg"
-              }
-              alt="User_Profile_Picture"
-              className="min-w-10 max-w-10 min-h-10 max-h-10 rounded-full object-cover object-center shadow-sm cursor-pointer"
-            />
-          </Link>
-        )}
+        <SkeleWithUserPicture
+          isLoading={me?.isLoading}
+          url={me?.data?.profilePictureUrl}
+          name={me?.data?.name}
+          minTailWidth={"min-w-10"}
+          maxTailWidth={"max-w-10"}
+          minTailHeight={"min-h-10"}
+          maxTailHeight={"max-h-10"}
+        />
       </div>
     </aside>
   );

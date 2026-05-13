@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 // Local Modules
 import API from "@util/api.util.js";
 import { BrandHead } from "@component/Brand";
+import { SkeleWithUserPicture } from "@component/profile.components";
 import Classic from "@/layouts/Classic";
 
 // Assets
@@ -32,13 +33,14 @@ function Profile() {
       <div className="p-4 md:p-8">
         <div className="p-4 md:p-6 flex flex-col md:flex-row gap-4 md:gap-0 justify-between border-2 border-blue-900/20 rounded-3xl">
           <div className="flex flex-row gap-6">
-            <img
-              src={
-                PROFILE?.profilePictureUrl ||
-                "https://res.cloudinary.com/dtgta9nbo/image/upload/v1775106730/No_Profile_Picture_Icon_Tiktok_snc7gr.jpg"
-              }
-              alt={`${PROFILE?.name || "Someone"}'s Profile Picture`}
-              className="p-1 min-w-25 md:min-w-25 max-w-25 min-h-25 max-h-25 border-2 border-blue-900/30 rounded-full cursor-pointer"
+            <SkeleWithUserPicture
+              isForProfile={true}
+              url={PROFILE?.profilePictureUrl}
+              name={PROFILE?.name}
+              minTailWidth={"min-w-25"}
+              maxTailWidth={"max-w-25"}
+              minTailHeigth={"min-h-25"}
+              maxTailHeight={"max-h-25"}
             />
             <div className="pt-2 flex flex-col gap-1">
               <div className="flex flex-row gap-2">

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 // Local Modules
 import API from "@util/api.util.js";
+import { SkeleWithUserPicture } from "@component/profile.components";
 
 // Assets
 import VerifiedIcon from "@icon/Verified.svg";
@@ -21,10 +22,13 @@ function Suggestion({ id, name, username, isVerified, url }) {
   return (
     <div className="flex flex-row items-center justify-between">
       <div className="flex gap-2">
-        <img
-          src={url}
-          alt={`${name}'s Profile Picture`}
-          className="min-w-10 max-w-10 min-h-10 max-h-10 rounded-full object-cover object-center shadow-sm cursor-pointer"
+        <SkeleWithUserPicture
+          url={url}
+          name={name}
+          minTailWidth={"min-w-10"}
+          maxTailWidth={"max-w-10"}
+          minTailHeight={"min-h-10"}
+          maxTailHeight={"max-h-10"}
         />
         <div className="flex flex-col">
           <div className="flex flex-row gap-2">
@@ -33,7 +37,7 @@ function Suggestion({ id, name, username, isVerified, url }) {
               className="text-sm text-white font-medium tracking-wide whitespace-nowrap"
               style={{ fontFamily: "Poppins, sans-serif" }}
             >
-              {name.length <= 14 ? name : name.slice(0, 14) + "..."}
+              {name.length <= 10 ? name : name.slice(0, 10) + "..."}
             </Link>
             {isVerified && (
               <img src={VerifiedIcon} width={20} alt="Verified_Icon" />
@@ -44,12 +48,12 @@ function Suggestion({ id, name, username, isVerified, url }) {
             className="text-sm text-[#c0c0c0] font-medium tracking-wide whitespace-nowrap"
             style={{ fontFamily: "Poppins, sans-serif" }}
           >
-            @{username.length <= 12 ? username : username.slice(0, 12) + "..."}
+            @{username.length <= 11 ? username : username.slice(0, 11) + "..."}
           </Link>
         </div>
       </div>
       <button
-        className="px-4 py-1.5 text-base text-white font-normal bg-[#192530] rounded-full cursor-pointer tracking-wide"
+        className="min-w-27 py-1.5 text-base text-white font-medium bg-[#192530] rounded-full cursor-pointer tracking-wide"
         onClick={() => RELATIONSHIP_STATUS === "unknown" && handleFollow(id)}
       >
         {RELATIONSHIP_STATUS === "unknown" && "Follow"}
