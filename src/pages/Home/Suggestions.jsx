@@ -4,12 +4,11 @@ import { useEffect, useState } from "react";
 
 // Local Modules
 import API from "@util/api.util.js";
-import { SkeleWithUserPicture } from "@component/profile.components";
 
 // Assets
 import VerifiedIcon from "@icon/Verified.svg";
 
-function Suggestion({ id, name, username, isVerified, url }) {
+function Suggestion({ id, name, username, isVerified, profilePictureUrl }) {
   // States
   const [RELATIONSHIP_STATUS, UPDATE_RELATIONSHIP_STATUS] = useState("unknown");
 
@@ -22,13 +21,13 @@ function Suggestion({ id, name, username, isVerified, url }) {
   return (
     <div className="flex flex-row items-center justify-between">
       <div className="flex gap-2">
-        <SkeleWithUserPicture
-          url={url}
-          name={name}
-          minTailWidth={"min-w-10"}
-          maxTailWidth={"max-w-10"}
-          minTailHeight={"min-h-10"}
-          maxTailHeight={"max-h-10"}
+        <img
+          src={
+            profilePictureUrl ||
+            "https://res.cloudinary.com/dtgta9nbo/image/upload/v1775106730/No_Profile_Picture_Icon_Tiktok_snc7gr.jpg"
+          }
+          alt="User-Profile-Picture"
+          className="min-w-10 max-w-10 min-h-10 max-h-10 rounded-full object-cover object-center cursor-pointer shadow-sm"
         />
         <div className="flex flex-col">
           <div className="flex flex-row gap-2">
@@ -88,7 +87,7 @@ function Suggestions() {
               id={suggestion?._id}
               name={suggestion?.name}
               username={suggestion?.username}
-              url={suggestion?.profilePictureUrl}
+              profilePictureUrl={suggestion?.profilePictureUrl}
               isVerified={suggestion?.isVerified}
             />
           );

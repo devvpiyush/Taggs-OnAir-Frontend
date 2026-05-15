@@ -1,11 +1,11 @@
 // External Modules
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import Skeleton from "@mui/material/Skeleton";
 
 // Local Modules
 import API from "@util/api.util.js";
 import { BrandHead } from "@component/Brand";
-import { SkeleWithUserPicture } from "@component/profile.components";
 import Classic from "@/layouts/Classic";
 
 // Assets
@@ -33,14 +33,11 @@ function Profile() {
       <div className="p-4 md:p-8">
         <div className="p-4 md:p-6 flex flex-col md:flex-row gap-4 md:gap-0 justify-between border-2 border-blue-900/20 rounded-3xl">
           <div className="flex flex-row gap-6">
-            <SkeleWithUserPicture
-              isForProfile={true}
-              url={PROFILE?.profilePictureUrl}
-              name={PROFILE?.name}
-              minTailWidth={"min-w-25"}
-              maxTailWidth={"max-w-25"}
-              minTailHeigth={"min-h-25"}
-              maxTailHeight={"max-h-25"}
+            {console.log(PROFILE)}
+            <img
+              src={PROFILE?.profilePictureUrl}
+              alt="Profile-Picture"
+              className="min-w-25 max-w-25 min-h-25 max-h-25 rounded-full object-cover object-center cursor-pointer p-1 border-2 border-blue-900/30"
             />
             <div className="pt-2 flex flex-col gap-1">
               <div className="flex flex-row gap-2">

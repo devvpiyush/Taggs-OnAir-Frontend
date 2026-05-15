@@ -12,7 +12,6 @@ import ImageIcon from "@icon/Image.svg";
 import VerifiedIcon from "@icon/Verified.svg";
 import WarningIcon from "@icon/Warning.svg";
 import SendIcon from "@icon/Send.svg";
-import { SkeleWithUserPicture } from "@component/profile.components";
 
 function Create({ toggle }) {
   // Constants
@@ -45,15 +44,30 @@ function Create({ toggle }) {
   return (
     <div className="p-4 border-2 border-[#1E1E1E] rounded-3xl transition-color ease-in-out duration-300 hover:border-(--primary-border-hover-color)">
       <div className="flex flex-row items-start justify-between gap-4">
-        <SkeleWithUserPicture
-          isLoading={me?.isLoading}
-          url={me?.data?.profilePictureUrl}
-          name={me?.data?.name}
-          minTailWidth={"min-w-12"}
-          maxTailWidth={"max-w-12"}
-          minTailHeigth={"min-h-12"}
-          maxTailHeight={"max-h-12"}
-        />
+        {me?.isLoading ? (
+          <Skeleton
+            variant="circular"
+            width={48}
+            height={48}
+            sx={{
+              bgcolor: "#1a1a1a",
+              "::after": {
+                background:
+                  "linear-gradient(90deg, transparent, #2a2a2a, transparent)",
+              },
+            }}
+            animation="wave"
+          />
+        ) : (
+          <img
+            src={
+              me?.data?.profilePictureUrl ||
+              "https://res.cloudinary.com/dtgta9nbo/image/upload/v1775106730/No_Profile_Picture_Icon_Tiktok_snc7gr.jpg"
+            }
+            alt="Profile-Picture"
+            className="min-w-12 max-w-12 min-h-12 max-h-12 rounded-full object-cover object-center cursor-pointer shadow-sm"
+          />
+        )}
         <div className="w-full flex flex-col items-start justify-center">
           {me?.isLoading ? (
             <Skeleton
