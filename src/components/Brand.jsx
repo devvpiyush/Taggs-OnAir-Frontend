@@ -1,4 +1,4 @@
-export function BrandHead() {
+export function Head() {
   return (
     <div className="hidden md:flex sticky top-0 z-10 w-full bg-[#0D0D0D] py-4 pt-6 items-center justify-center border-b border-[#232323]">
       <h1

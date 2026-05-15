@@ -5,7 +5,7 @@ import Skeleton from "@mui/material/Skeleton";
 
 // Local Modules
 import API from "@util/api.util.js";
-import { BrandHead } from "@component/Brand";
+import { Head } from "@component/Brand";
 import Classic from "@/layouts/Classic";
 
 // Assets
@@ -29,11 +29,10 @@ function Profile() {
 
   return (
     <Classic>
-      <BrandHead />
+      <Head />
       <div className="p-4 md:p-8">
         <div className="p-4 md:p-6 flex flex-col md:flex-row gap-4 md:gap-0 justify-between border-2 border-blue-900/20 rounded-3xl">
           <div className="flex flex-row gap-6">
-            {console.log(PROFILE)}
             <img
               src={PROFILE?.profilePictureUrl}
               alt="Profile-Picture"

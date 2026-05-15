@@ -16,6 +16,7 @@ import Home from "@page/Home/Home";
 import Search from "@page/Search/Search";
 import Login from "@page/Login/Login";
 import Profile from "@page/Profile/Profile";
+import Chat from "@page/Chat/Chat";
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
       {
         path: "/:username",
         element: <Profile />,
+      },
+      {
+        path: "/chat/:username",
+        element: <Chat />,
       },
     ],
   },
