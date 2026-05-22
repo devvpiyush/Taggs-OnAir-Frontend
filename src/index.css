@@ -5,6 +5,8 @@
 @import "@fontsource/damion";
 @import "@fontsource/poppins";
 @import "@fontsource/inder";
+@import "@fontsource/inter";
+@import "@fontsource/roboto";
 
 :root {
   --primary-border-color: #242424;

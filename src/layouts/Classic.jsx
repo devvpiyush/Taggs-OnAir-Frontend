@@ -7,18 +7,22 @@ function Classic({ excluded = "None", children }) {
   return (
     <div className="w-full md:flex md:flex-row">
       <Sidebar />
-      {excluded !== "Header" && (
-        <>
-          <header className="md:hidden">
-            <Navbar />
-          </header>
-        </>
-      )}
+      {excluded !== "Header" ||
+        (excluded !== "HeadFeet" && (
+          <>
+            <header className="md:hidden">
+              <Navbar />
+            </header>
+          </>
+        ))}
       <main className="w-full">
         {children}
-        <div className="md:hidden">
-          <Navigator />
-        </div>
+        {excluded !== "Footer" ||
+          (excluded !== "HeadFeet" && (
+            <div className="md:hidden">
+              <Navigator />
+            </div>
+          ))}
       </main>
     </div>
   );

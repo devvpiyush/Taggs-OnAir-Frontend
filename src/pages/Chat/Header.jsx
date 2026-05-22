@@ -1,29 +1,32 @@
 // External Modules
 import { Link } from "react-router-dom";
 
-function Header() {
+// Assets
+import ExitIcon from "@icon/Exit.svg";
+
+function Header({ UserContext }) {
   return (
-    <div className="w-full sticky top-0 flex flex-row items-center justify-between py-3 md:py-6 px-4 md:px-8 border-b border-[#232323]">
-      <div className="flex flex-row items-start gap-4">
+    <div className="px-6 py-5 md:py-4 flex flex-row gap-4 border-b border-[#232323]">
+      <img src={ExitIcon} alt="Exit_Icon" className="md:hidden" />
+      <div className="flex flex-row items-center justify-center gap-4">
         <img
-          src="https://res.cloudinary.com/dtgta9nbo/image/upload/v1775106730/No_Profile_Picture_Icon_Tiktok_snc7gr.jpg"
+          src={UserContext?.profilePictureUrl}
           className="min-w-12 max-w-12 min-h-12 max-h-12 rounded-full"
-          alt=""
         />
-        <div className="flex flex-col">
+        <div>
           <Link
-            to={"/nancy_choudhary"}
-            className="text-md text-white font-medium tracking-wide"
+            to={`/${UserContext?.username}`}
+            className="text-md text-white font-medium cursor-pointer"
             style={{ fontFamily: "Poppins, sans-serif" }}
           >
-            Nancy Choudhary
+            {UserContext?.name}
           </Link>
-          <span
-            className="text-sm text-gray-500 font-semibold"
-            style={{ fontFamily: "Poppins, sans-serif" }}
+          <h4
+            className="text-sm text-gray-500 font-semibold tracking-wide"
+            style={{ fontFamily: "Roboto, sans-serif" }}
           >
-            @nancy_choudhary
-          </span>
+            @{UserContext?.username}
+          </h4>
         </div>
       </div>
     </div>
