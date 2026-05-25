@@ -1,5 +1,6 @@
 // External Modules
 import { Link, useOutletContext } from "react-router-dom";
+import { useSelector } from "react-redux";
 import Skeleton from "@mui/material/Skeleton";
 
 // Assets
@@ -10,7 +11,8 @@ import ChatsIcon from "@icon/Chats.svg";
 
 function Navigator() {
   // Constants
-  const { me } = useOutletContext();
+  const User = useSelector((state) => state.User);
+
   return (
     <div className="fixed bottom-0 z-10 w-full px-6 py-4 flex flex-row items-center justify-between bg-[#0d0d0d] border border-t-(--primary-border-color)">
       <Link to="/">
@@ -45,7 +47,7 @@ function Navigator() {
         height={30}
         className="cursor-pointer"
       />
-      {me?.isLoading ? (
+      {User?.isLoading ? (
         <Skeleton
           variant="circular"
           width={32}
@@ -60,10 +62,10 @@ function Navigator() {
           animation="wave"
         />
       ) : (
-        <Link to={`/${me?.data?.username}`}>
+        <Link to={`/${User?.username}`}>
           <img
             src={
-              me?.data?.profilePictureUrl ||
+              User?.profilePictureUrl ||
               "https://res.cloudinary.com/dtgta9nbo/image/upload/q_auto/f_auto/v1775106730/No_Profile_Picture_Icon_Tiktok_snc7gr.jpg"
             }
             alt="User_Profile_Picture"

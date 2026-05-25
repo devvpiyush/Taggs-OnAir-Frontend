@@ -2,19 +2,15 @@
 import { Outlet } from "react-router-dom";
 
 // Local Modules
-import Navbar from "@component/Navbar";
 import Navigator from "@component/Navigator";
 import Sidebar from "@component/Sidebar";
 
-function Classic() {
+function Shell() {
   return (
     <div className="w-full md:flex md:flex-row">
       <aside>
         <Sidebar />
       </aside>
-      <header className="md:hidden">
-        <Navbar />
-      </header>
       <main className="w-full">
         <Outlet />
         <section className="md:hidden">
@@ -25,4 +21,4 @@ function Classic() {
   );
 }
 
-export default Classic;
+export default Shell;

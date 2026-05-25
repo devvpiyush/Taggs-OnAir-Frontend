@@ -1,6 +1,7 @@
 // External Modules
 import { Link, useOutletContext } from "react-router-dom";
 import { useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import Skeleton from "@mui/material/Skeleton";
 
 // Local Modules
@@ -15,7 +16,7 @@ import SendIcon from "@icon/Send.svg";
 
 function Create({ toggle }) {
   // Constants
-  const { me } = useOutletContext();
+  const User = useSelector((state) => state.User);
 
   // States & References
   const [CAPTION, SET_CAPTION] = useState("");
@@ -44,7 +45,7 @@ function Create({ toggle }) {
   return (
     <div className="p-4 border-2 border-[#1E1E1E] rounded-3xl transition-color ease-in-out duration-300 hover:border-(--primary-border-hover-color)">
       <div className="flex flex-row items-start justify-between gap-4">
-        {me?.isLoading ? (
+        {User?.isLoading ? (
           <Skeleton
             variant="circular"
             width={48}
@@ -61,7 +62,7 @@ function Create({ toggle }) {
         ) : (
           <img
             src={
-              me?.data?.profilePictureUrl ||
+              User?.profilePictureUrl ||
               "https://res.cloudinary.com/dtgta9nbo/image/upload/v1775106730/No_Profile_Picture_Icon_Tiktok_snc7gr.jpg"
             }
             alt="Profile-Picture"
@@ -69,7 +70,7 @@ function Create({ toggle }) {
           />
         )}
         <div className="w-full flex flex-col items-start justify-center">
-          {me?.isLoading ? (
+          {User?.isLoading ? (
             <Skeleton
               variant="text"
               animation="wave"
@@ -86,13 +87,13 @@ function Create({ toggle }) {
           ) : (
             <div className="flex flex-row gap-2">
               <Link
-                to={`/${me?.data?.username}`}
+                to={`/${User?.username}`}
                 className="font-semibold text-white tracking-wide whitespace-nowrap"
                 style={{ fontFamily: "Poppins, sans-serif" }}
               >
-                {me?.data?.name}
+                {User?.name}
               </Link>
-              {me?.data?.isVerified && (
+              {User?.isVerified && (
                 <img src={VerifiedIcon} width={20} alt="Verified_Icon" />
               )}
             </div>

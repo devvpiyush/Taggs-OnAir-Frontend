@@ -2,7 +2,6 @@
 import { useState } from "react";
 
 // Local Modules
-import Classic from "@/layouts/Classic";
 import { Head } from "@component/Brand";
 import Created from "./Created";
 import Create from "./Create";
@@ -14,7 +13,7 @@ function Home() {
   const [POSTED, SET_POSTED] = useState(false);
 
   return (
-    <Classic>
+    <>
       <Head />
       <div className="p-4 flex flex-row gap-4">
         <div className="w-full flex flex-col gap-4">
@@ -24,7 +23,7 @@ function Home() {
         </div>
         <Suggestions />
       </div>
-    </Classic>
+    </>
   );
 }
 

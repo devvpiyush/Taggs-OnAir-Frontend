@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 
 // Local Modules
 import API from "@util/api.util.js";
-import Classic from "@/layouts/Classic";
 import Header from "./Header";
 
 function Chat() {
@@ -23,11 +22,7 @@ function Chat() {
     call();
   }, []);
 
-  return (
-    <Classic excluded="HeadFeet">
-      <Header UserContext={CONTEXT_ABOUT_USER} />
-    </Classic>
-  );
+  return <Header UserContext={CONTEXT_ABOUT_USER} />;
 }
 
 export default Chat;

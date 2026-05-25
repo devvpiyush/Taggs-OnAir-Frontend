@@ -1,6 +1,7 @@
 // External Modules
 import { Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
 // Local Modules
 import { connectSocket } from "@util/socket.util";
@@ -8,12 +9,35 @@ import { socketEvents, beatTheHeart } from "@util/events.util";
 import { useMe } from "@hook/Auth.hooks";
 import { AppStatic } from "@component/Loaders";
 import { AccessWraper } from "@/context/Accessors";
+import { create, config } from "@/store/user.slice.js";
 
 import "./App.css";
 
 function App() {
   // Declarations
+  const dispatch = useDispatch();
+
   const User = useMe();
+
+  useEffect(() => {
+    if (User?.isLoading) return;
+
+    // Dispatches
+    dispatch(
+      create({
+        username: User?.data?.username,
+        name: User?.data?.name,
+        profilePictureUrl: User?.data?.profilePictureUrl,
+        isVerified: User?.data?.isVerified,
+      }),
+    );
+
+    dispatch(
+      config({
+        isLoading: User?.isLoading,
+      }),
+    );
+  }, [User?.isLoading, User?.data]);
 
   const [minLoadComplete, setMinLoadComplete] = useState(false);
 
@@ -46,7 +70,7 @@ function App() {
 
   return (
     <AccessWraper User={User}>
-      <Outlet context={{ me: User }} />
+      <Outlet />
     </AccessWraper>
   );
 }

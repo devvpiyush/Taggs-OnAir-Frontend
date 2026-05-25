@@ -1,5 +1,6 @@
 // External Modules
 import { Link, useOutletContext } from "react-router-dom";
+import { useSelector } from "react-redux";
 import Skeleton from "@mui/material/Skeleton";
 
 // Local Modules
@@ -16,7 +17,7 @@ import VerifiedIcon from "@icon/Verified.svg";
 
 function Sidebar() {
   // Constants
-  const { me } = useOutletContext();
+  const User = useSelector((state) => state.User);
 
   return (
     <aside className="hidden md:flex md:items-center md:flex-col md:justify-between md:sticky md:left-0 md:top-0 w-fit h-dvh pl-4 pr-8 pt-22 pb-4 border border-r-[#232323]">
@@ -38,7 +39,7 @@ function Sidebar() {
         </Link>
       </div>
       <div className="w-fit p-3 flex flex-row items-center justify-start gap-4 transition-colors self-start ease-in-out duration-200 hover:bg-[#232323] rounded-full cursor-pointer">
-        {me?.isLoading ? (
+        {User?.isLoading ? (
           <Skeleton
             variant="circular"
             width={40}
@@ -53,10 +54,10 @@ function Sidebar() {
             animation="wave"
           />
         ) : (
-          <Link to={`/${me?.data?.username}`}>
+          <Link to={`/${User?.username}`}>
             <img
               src={
-                me?.data?.profilePictureUrl ||
+                User?.profilePictureUrl ||
                 "https://res.cloudinary.com/dtgta9nbo/image/upload/v1775106730/No_Profile_Picture_Icon_Tiktok_snc7gr.jpg"
               }
               alt="User-Profile-Picture"
