@@ -9,7 +9,7 @@ import { socketEvents, beatTheHeart } from "@util/events.util";
 import { useMe } from "@hook/Auth.hooks";
 import { AppStatic } from "@component/Loaders";
 import { AccessWraper } from "@/context/Accessors";
-import { create, config } from "@/store/user.slice.js";
+import { create } from "@/store/user.slice.js";
 
 import "./App.css";
 
@@ -31,13 +31,7 @@ function App() {
         isVerified: User?.data?.isVerified,
       }),
     );
-
-    dispatch(
-      config({
-        isLoading: User?.isLoading,
-      }),
-    );
-  }, [User?.isLoading, User?.data]);
+  }, [User?.isLoading]);
 
   const [minLoadComplete, setMinLoadComplete] = useState(false);
 

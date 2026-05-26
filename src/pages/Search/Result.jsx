@@ -17,7 +17,7 @@ function Result({ username, name, isVerified, profilePictureUrl }) {
           <div className="flex flex-row gap-2">
             <Link
               to={`/${username}`}
-              className="font-semibold text-white tracking-wide"
+              className="font-medium text-white tracking-wide"
               style={{ fontFamily: "Poppins, sans-serif" }}
             >
               {name}
@@ -27,7 +27,7 @@ function Result({ username, name, isVerified, profilePictureUrl }) {
             )}
           </div>
           <p
-            className="font-semibold text-gray-400 tracking-wider"
+            className="text-sm text-gray-400 tracking-wider"
             style={{ fontFamily: "Poppins, sans-serif" }}
           >
             @{username}

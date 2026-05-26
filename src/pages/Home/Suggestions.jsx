@@ -4,19 +4,14 @@ import { useEffect, useState } from "react";
 
 // Local Modules
 import API from "@util/api.util.js";
+import { follow } from "@service/follow.service";
 
 // Assets
 import VerifiedIcon from "@icon/Verified.svg";
 
 function Suggestion({ id, name, username, isVerified, profilePictureUrl }) {
   // States
-  const [RELATIONSHIP_STATUS, UPDATE_RELATIONSHIP_STATUS] = useState("unknown");
-
-  // Functions
-  async function handleFollow(followingId) {
-    const result = await API("POST", `follow/follow/${followingId}`);
-    if (result) UPDATE_RELATIONSHIP_STATUS(result?.meta?.status);
-  }
+  const [RELATIONSHIP_STATE, UPDATE_RELATIONSHIP_STATE] = useState("unknown");
 
   return (
     <div className="flex flex-row items-center justify-between">
@@ -53,11 +48,16 @@ function Suggestion({ id, name, username, isVerified, profilePictureUrl }) {
       </div>
       <button
         className="min-w-27 py-1.5 text-base text-white font-medium bg-[#192530] rounded-full cursor-pointer tracking-wide"
-        onClick={() => RELATIONSHIP_STATUS === "unknown" && handleFollow(id)}
+        onClick={async () => {
+          if (RELATIONSHIP_STATE === "unknown") {
+            const status = await follow(id);
+            UPDATE_RELATIONSHIP_STATE(status?.status);
+          }
+        }}
       >
-        {RELATIONSHIP_STATUS === "unknown" && "Follow"}
-        {RELATIONSHIP_STATUS === "followed" && "Unfollow"}
-        {RELATIONSHIP_STATUS === "requested" && "Requested"}
+        {RELATIONSHIP_STATE === "unknown" && "Follow"}
+        {RELATIONSHIP_STATE === "followed" && "Unfollow"}
+        {RELATIONSHIP_STATE === "requested" && "Requested"}
       </button>
     </div>
   );

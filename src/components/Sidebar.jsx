@@ -39,7 +39,7 @@ function Sidebar() {
         </Link>
       </div>
       <div className="w-fit p-3 flex flex-row items-center justify-start gap-4 transition-colors self-start ease-in-out duration-200 hover:bg-[#232323] rounded-full cursor-pointer">
-        {User?.isLoading ? (
+        {User?.profilePictureUrl === "" ? (
           <Skeleton
             variant="circular"
             width={40}

@@ -1,21 +1,27 @@
 // External Modules
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import Skeleton from "@mui/material/Skeleton";
 
 // Local Modules
 import API from "@util/api.util.js";
 import { Head } from "@component/Brand";
+import { follow } from "@service/follow.service";
 
 // Assets
 import VerifiedIcon from "@icon/Verified.svg";
 
 function Profile() {
+  // Declarations
+  const User = useSelector((state) => state.User);
+
   // Constants
   const param = useParams().username;
 
   // States
   const [PROFILE, SET_PROFILE] = useState(null);
+  const [RELATIONSHIP_STATE, SET_RELATIONSHIP_STATE] = useState("unknown");
 
   // Side-Effects
   useEffect(() => {
@@ -72,6 +78,21 @@ function Profile() {
               >
                 {PROFILE?.bio || ""}
               </p>
+              {PROFILE?.username !== User?.username && (
+                <button
+                  className="mt-2 md:w-fit px-3 py-1 font-semibold text-blue-400 border-2 border-blue-600/20 rounded-md cursor-pointer"
+                  onClick={async () => {
+                    if (RELATIONSHIP_STATE === "unknown") {
+                      const status = await follow(PROFILE?._id);
+                      SET_RELATIONSHIP_STATE(status?.status);
+                    }
+                  }}
+                >
+                  {RELATIONSHIP_STATE === "unknown" && "Follow +"}
+                  {RELATIONSHIP_STATE === "requested" && "Requested"}
+                  {RELATIONSHIP_STATE === "followed" && "Unfollow"}
+                </button>
+              )}
             </div>
           </div>
           <div className="flex flex-col gap-2">

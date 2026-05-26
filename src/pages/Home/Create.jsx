@@ -45,7 +45,7 @@ function Create({ toggle }) {
   return (
     <div className="p-4 border-2 border-[#1E1E1E] rounded-3xl transition-color ease-in-out duration-300 hover:border-(--primary-border-hover-color)">
       <div className="flex flex-row items-start justify-between gap-4">
-        {User?.isLoading ? (
+        {User?.profilePictureUrl === "" ? (
           <Skeleton
             variant="circular"
             width={48}
@@ -70,7 +70,7 @@ function Create({ toggle }) {
           />
         )}
         <div className="w-full flex flex-col items-start justify-center">
-          {User?.isLoading ? (
+          {User?.name === "" ? (
             <Skeleton
               variant="text"
               animation="wave"
