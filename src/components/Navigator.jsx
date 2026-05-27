@@ -47,7 +47,7 @@ function Navigator() {
         height={30}
         className="cursor-pointer"
       />
-      {User?.isLoading ? (
+      {User?.profilePictureUrl === "" ? (
         <Skeleton
           variant="circular"
           width={32}

@@ -56,7 +56,7 @@ function Thread({
       </div>
       <div className="md:pl-20 px-6 py-4">
         <p
-          className="text-md md:text-lg text-[#c0c0c0] font-medium tracking-wider"
+          className="text-md md:text-lg text-[#c0c0c0] font-medium tracking-wider whitespace-pre-line"
           style={{ fontFamily: "Poppins, sans-serif" }}
         >
           {(caption.length > 450 && caption.slice(0, 450) + "...") || caption}

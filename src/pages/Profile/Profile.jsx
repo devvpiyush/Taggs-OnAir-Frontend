@@ -55,12 +55,6 @@ function Profile() {
                   <img src={VerifiedIcon} width={20} alt="Verified_Icon" />
                 )}
               </div>
-              <span
-                className="text-sm text-white font-medium tracking-wider"
-                style={{ fontFamily: "Poppins, sans-serif" }}
-              >
-                @{PROFILE?.username || ""}
-              </span>
               {PROFILE?.identity && PROFILE?.identity !== "normal" ? (
                 <h1
                   className="text-xs text-gray-300 font-medium tracking-wider"
@@ -72,8 +66,15 @@ function Profile() {
               ) : (
                 ""
               )}
-              <p
+              <span
                 className="text-sm text-white font-medium tracking-wider"
+                style={{ fontFamily: "Poppins, sans-serif" }}
+              >
+                @{PROFILE?.username || ""}
+              </span>
+
+              <p
+                className="text-sm text-white font-medium tracking-wider whitespace-pre-line"
                 style={{ fontFamily: "Inter, sans-serif" }}
               >
                 {PROFILE?.bio || ""}
