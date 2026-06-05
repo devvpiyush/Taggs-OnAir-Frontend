@@ -6,16 +6,24 @@ import { useQuery } from "@tanstack/react-query";
 
 export const useSearch = (input) => {
   input = input.trim().toLowerCase() || "";
+  try {
+    const call = async () => {
+      const res = await API("GET", `search/search-all?q=${input}`);
 
-  const call = async () => {
-    const res = await API("GET", `search/accounts?query=${input}`);
-    return res?.meta?.data || [];
-  };
+      if (res?.isFetched && res?.code === "SEARCHES_FETCHED") {
+        return res?.data;
+      }
 
-  return useQuery({
-    queryKey: ["search", input],
-    queryFn: call,
-    enabled: false,
-    refetchOnWindowFocus: false,
-  });
+      return res?.data;
+    };
+
+    return useQuery({
+      queryKey: ["search", input],
+      queryFn: call,
+      enabled: false,
+      refetchOnWindowFocus: false,
+    });
+  } catch (err) {
+    console.log(`Error Sending Search Queries -> ${err}`);
+  }
 };

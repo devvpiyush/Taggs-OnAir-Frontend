@@ -104,4 +104,11 @@ export const decodedErrors = [
     code: "CAPTION_INVALID_LENGTH",
     message: "Caption is too short or long.",
   },
+
+  // Search
+  {
+    field: "search",
+    code: "NO_SEARCHES_FOUND",
+    message: "Can’t find who you’re looking for?",
+  },
 ];

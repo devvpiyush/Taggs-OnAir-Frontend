@@ -37,10 +37,6 @@ const router = createBrowserRouter([
             path: "/:username",
             element: <Profile />,
           },
-          {
-            path: "/chat/:username",
-            element: <Chat />,
-          },
         ],
       },
       {
@@ -58,6 +54,10 @@ const router = createBrowserRouter([
           {
             path: "/search",
             element: <Search />,
+          },
+          {
+            path: "/chat/:username",
+            element: <Chat />,
           },
         ],
       },

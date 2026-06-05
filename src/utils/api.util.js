@@ -15,17 +15,10 @@ async function API(
       withCredentials: WITH_CREDENTIALS,
       data: DATA,
     });
-    return call.data;
-  } catch (error) {
-    if (error.response?.data) {
-      throw error.response.data;
-    }
 
-    // 🔴 Network / CORS / Timeout
-    throw {
-      code: "NETWORK_ERROR",
-      message: "Unable to connect to server",
-    };
+    return call.data;
+  } catch (err) {
+    return err?.response?.data;
   }
 }
 

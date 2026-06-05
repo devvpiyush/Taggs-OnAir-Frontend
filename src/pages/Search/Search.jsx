@@ -6,6 +6,7 @@ import { CircularCoolBlue } from "@component/Loaders";
 import Bar from "./Bar";
 import Button from "./Button";
 import Result from "./Result";
+import { decodeErrorCode } from "@util/decoders.js";
 import { useSearch } from "@hook/Search.hooks";
 
 function Search() {
@@ -28,20 +29,21 @@ function Search() {
         {SearchQuery?.data?.length === 0 && (
           <div className="w-full py-8 flex items-center justify-center">
             <p className="px-2 md:px-0 text-sm md:text-lg text-center font-semibold text-[#c0c0c0]">
-              We couldn’t find anything… but we’re rooting for your next try!
+              {decodeErrorCode("NO_SEARCHES_FOUND")}
             </p>
           </div>
         )}
-        {SearchQuery?.data?.length > 0 &&
-          SearchQuery?.data.map((result) => (
-            <Result
-              key={result.username}
-              username={result.username}
-              name={result.name}
-              isVerified={result.isVerified}
-              profilePictureUrl={result.profilePictureUrl}
-            />
-          ))}
+        {SearchQuery?.data?.length > 0 && SearchQuery?.isSuccess
+          ? SearchQuery?.data.map((result) => (
+              <Result
+                key={result.username}
+                username={result.username}
+                name={result.name}
+                isVerified={result.isVerified}
+                profilePictureUrl={result.profilePictureUrl}
+              />
+            ))
+          : null}
       </div>
     </div>
   );
